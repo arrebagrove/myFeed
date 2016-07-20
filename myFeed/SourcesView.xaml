@@ -1,0 +1,84 @@
+﻿<Page
+    x:Class="myFeed.SourcesView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:myFeed"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Border Name="MainBorder" BorderThickness="0 0 0 1" VerticalAlignment="Top" BorderBrush="{ThemeResource SystemChromeMediumColor}" Height="46">
+        <Border.Transitions>
+            <TransitionCollection>
+                <EntranceThemeTransition />
+            </TransitionCollection>
+        </Border.Transitions>
+        <StackPanel Name="stack" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <Grid Tapped="stack_Tapped" Holding="stack_Holding" RightTapped="stack_Holding" Height="46" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                <FlyoutBase.AttachedFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Name="DeleteItem" x:Uid="DeleteItem" Click="DeleteItem_Click"/>
+                    </MenuFlyout>
+                </FlyoutBase.AttachedFlyout>
+                <StackPanel VerticalAlignment="Center" Margin="4,0,0,0" Orientation="Horizontal">
+                    <Button Name="CategoryTitle" MaxWidth="300" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" Style="{ThemeResource TextBlockButtonStyle}" />
+                    <Button Name="CountInCategory" Content="5" Margin="-6 0 0 0" Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}" Style="{ThemeResource TextBlockButtonStyle}" />
+                </StackPanel>
+                <Button FontSize="20" Name="ExpandCollapse" VerticalAlignment="Center" Style="{ThemeResource TextBlockButtonStyle}" Content="&#xE8C4;" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Right" Margin="12,0" />
+            </Grid>
+            <StackPanel Name="CollapsableGrid" HorizontalAlignment="Stretch">
+                <ProgressBar Name="LoadStatus" IsIndeterminate="True" VerticalAlignment="Top" Canvas.ZIndex="2" Opacity="1"/>
+                <ItemsControl Name="Display" HorizontalAlignment="Stretch">
+                    <ItemsControl.ItemContainerTransitions>
+                        <TransitionCollection>
+                            <AddDeleteThemeTransition />
+                        </TransitionCollection>
+                    </ItemsControl.ItemContainerTransitions>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid VerticalAlignment="Top" Margin="12,6" HorizontalAlignment="Stretch" Height="54" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="32" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0" HorizontalAlignment="Stretch">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding Path=feedimg}" Stretch="UniformToFill" Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center" />
+                                        <TextBlock Text="{Binding Path=feedtitle}" FontWeight="SemiBold" FontSize="15" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left"/>
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding Path=feedsubtitle}" FontSize="12" TextTrimming="CharacterEllipsis" Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}" />
+                                    <TextBlock Text="{Binding Path=feedid}" FontSize="12" TextTrimming="CharacterEllipsis" Foreground="{ThemeResource SystemControlBackgroundAccentBrush}" />
+                                </StackPanel>
+                                <Button Name="Delete_Button" Click="Delete_Button_Click" Style="{ThemeResource TextBlockButtonStyle}" Grid.Column="1" 
+                                        FontSize="16" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" HorizontalAlignment="Center" FontFamily="Segoe MDL2 Assets" Content="&#xE74D;" VerticalAlignment="Center" />
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <Grid Height="76" HorizontalAlignment="Stretch" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                    <Grid.Transitions>
+                        <TransitionCollection>
+                            <AddDeleteThemeTransition />
+                        </TransitionCollection>
+                    </Grid.Transitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="40" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Uid="EnterALinkToRssFeed" FontSize="12" Margin="12, 6"/>
+                    <Grid Grid.Row="1" Grid.Column="0" >
+                        <TextBox Name="RssLink" PlaceholderText="http://example.com/rss" Margin="12,3" />
+                    </Grid>
+                    <Grid Grid.Row="1" Grid.Column="1" >
+                        <Button Height="Auto" HorizontalAlignment="Right" Background="{ThemeResource SystemControlBackgroundAccentBrush}" Margin="0,0,12,0" Foreground="White" x:Uid="AddButton" Click="AddButton_Click"/>
+                    </Grid>
+                </Grid>
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</Page>

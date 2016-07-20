@@ -1,0 +1,342 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddButton.Content" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AddToFavorites.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Add to favorites</value>
+  </data>
+  <data name="Article.Text" xml:space="preserve">
+    <value>ARTICLE</value>
+  </data>
+  <data name="ArticleL.Text" xml:space="preserve">
+    <value>Article</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CanNotGetData" xml:space="preserve">
+    <value>Can't retrieve this feed.</value>
+  </data>
+  <data name="ChangeTextSize.Text" xml:space="preserve">
+    <value>Text size in articles.</value>
+  </data>
+  <data name="ChooseArticle.Text" xml:space="preserve">
+    <value>Choose an article!</value>
+  </data>
+  <data name="ChooseArticleAndRead.Text" xml:space="preserve">
+    <value>And start reading.</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DeleteAction" xml:space="preserve">
+    <value>This site will be removed from this list.</value>
+  </data>
+  <data name="DeleteElement" xml:space="preserve">
+    <value>Delete an element?</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Your personal RSS reader!</value>
+  </data>
+  <data name="DisableImgDesc.Text" xml:space="preserve">
+    <value>Should the app download images? Disabling this can probably let you reduce mobile data usage.</value>
+  </data>
+  <data name="DisplayName.Text" xml:space="preserve">
+    <value>MYFEED</value>
+  </data>
+  <data name="EnterLink.PlaceholderText" xml:space="preserve">
+    <value>Enter a link to RSS channel</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Favorites.Text" xml:space="preserve">
+    <value>FAVORITES</value>
+  </data>
+  <data name="FavoritesL.Text" xml:space="preserve">
+    <value>Favorites</value>
+  </data>
+  <data name="FavoritesWelcome.Text" xml:space="preserve">
+    <value>This is a place for your favorite articles.</value>
+  </data>
+  <data name="FavoritesWelcomePressStar.Text" xml:space="preserve">
+    <value>Press on a star symbol while reading to move an article here.</value>
+  </data>
+  <data name="Feed.Text" xml:space="preserve">
+    <value>MY FEED</value>
+  </data>
+  <data name="FeedL.Text" xml:space="preserve">
+    <value>My feed</value>
+  </data>
+  <data name="Feedlist.Text" xml:space="preserve">
+    <value>RSS CHANNELS</value>
+  </data>
+  <data name="FeedlistL.Text" xml:space="preserve">
+    <value>RSS Channels</value>
+  </data>
+  <data name="FontSizeLarge.Content" xml:space="preserve">
+    <value>Large</value>
+  </data>
+  <data name="FontSizeMiddle.Content" xml:space="preserve">
+    <value>Middle</value>
+  </data>
+  <data name="FontSizeSmall.Content" xml:space="preserve">
+    <value>Small</value>
+  </data>
+  <data name="LinkNotValid" xml:space="preserve">
+    <value>This link is not valid. It should be something like this: http://example.com/rss</value>
+  </data>
+  <data name="MenuDelete.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="MenuOpenInEdge.Text" xml:space="preserve">
+    <value>Open in a web browser</value>
+  </data>
+  <data name="MenuRead.Text" xml:space="preserve">
+    <value>Read</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="OpenInEdge.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Open in a web browser</value>
+  </data>
+  <data name="Personalization.Text" xml:space="preserve">
+    <value>Personalization</value>
+  </data>
+  <data name="Reset.Text" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="ResetButton.Content" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="ResetText.Text" xml:space="preserve">
+    <value>You can easily reinstall myFeed by using this option. Note: all your data will be deleted.</value>
+  </data>
+  <data name="Settings.Text" xml:space="preserve">
+    <value>SETTINGS</value>
+  </data>
+  <data name="SettingsL.Text" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Share.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="ShowMessageAlert" xml:space="preserve">
+    <value>This action will lead to all data delition. Is this exactly what are you going to do?</value>
+  </data>
+  <data name="ShowMessageTitle" xml:space="preserve">
+    <value>Are you sure?</value>
+  </data>
+  <data name="ShowmoreButton.Content" xml:space="preserve">
+    <value>Show more articles...</value>
+  </data>
+  <data name="SiteFeed" xml:space="preserve">
+    <value>RSS Feed by </value>
+  </data>
+  <data name="UpdateButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="NewWelcome.Text" xml:space="preserve">
+    <value>Add your first RSS feed!</value>
+  </data>
+  <data name="NewWelcomeBtn.Content" xml:space="preserve">
+    <value>Add a feed</value>
+  </data>
+  <data name="NewWelcomeDesc.Text" xml:space="preserve">
+    <value>Here your news will be displayed.</value>
+  </data>
+  <data name="NoInternet.Text" xml:space="preserve">
+    <value>No Internet connection</value>
+  </data>
+  <data name="NoInternetFixed.Text" xml:space="preserve">
+    <value>Got the things done?</value>
+  </data>
+  <data name="NoInternetUpd.Content" xml:space="preserve">
+    <value>Refresh the page</value>
+  </data>
+  <data name="FeedlistWelcomeDesc.Text" xml:space="preserve">
+    <value>It looks like this:</value>
+  </data>
+  <data name="FeedlistWelcomeTitle.Text" xml:space="preserve">
+    <value>Enter a link to your first RSS feed!</value>
+  </data>
+  <data name="LinkExists" xml:space="preserve">
+    <value>You can not add the same feed twice to your list.</value>
+  </data>
+  <data name="DeleteItem.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="News" xml:space="preserve">
+    <value>Latest news</value>
+  </data>
+  <data name="AddNewCategory.Content" xml:space="preserve">
+    <value>Add new category</value>
+  </data>
+  <data name="CategoryDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="CategoryDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CategoryDialog.Title" xml:space="preserve">
+    <value>Add new category</value>
+  </data>
+  <data name="EnterALinkToRssFeed.Text" xml:space="preserve">
+    <value>Enter a link to new RSS feed:</value>
+  </data>
+  <data name="EnterNameOfNewCategory.Text" xml:space="preserve">
+    <value>Enter the name of the category:</value>
+  </data>
+  <data name="OpenFullSize" xml:space="preserve">
+    <value>Open in a web browser</value>
+  </data>
+  <data name="PinToStart.Text" xml:space="preserve">
+    <value>Pin to start screen</value>
+  </data>
+  <data name="UnpinFromStart.Text" xml:space="preserve">
+    <value>Unpin from start screen</value>
+  </data>
+  <data name="AddToFavs.Text" xml:space="preserve">
+    <value>Add to favorites</value>
+  </data>
+  <data name="Notify15min.Content" xml:space="preserve">
+    <value>Every 15 minutes</value>
+  </data>
+  <data name="Notify1hour.Content" xml:space="preserve">
+    <value>Every hour</value>
+  </data>
+  <data name="Notify30min.Content" xml:space="preserve">
+    <value>Every 30 minutes</value>
+  </data>
+  <data name="Notify3hours.Content" xml:space="preserve">
+    <value>Every 3 hours</value>
+  </data>
+  <data name="NotifyCheckTime.Text" xml:space="preserve">
+    <value>How often should notification service connect to the Internet and check for new articles?</value>
+  </data>
+  <data name="NotifyDisabled.Content" xml:space="preserve">
+    <value>Never</value>
+  </data>
+  <data name="PinButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Pin to Start</value>
+  </data>
+</root>

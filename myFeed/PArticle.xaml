@@ -1,0 +1,140 @@
+﻿<Page
+    x:Class="myFeed.PArticle"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:myFeed"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <DrillInNavigationTransitionInfo />
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+
+    <Page.Resources>
+        <Style x:Key="FavButton" TargetType="Button">
+            <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
+            <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
+            <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundTransparentBrush}"/>
+            <Setter Property="BorderThickness" Value="{ThemeResource ButtonBorderThemeThickness}"/>
+            <Setter Property="Padding" Value="8,4,8,4"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+            <Setter Property="UseSystemFocusVisuals" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="ContentPresenter">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseHighBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="RootGrid">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="ContentPresenter">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightTransparentBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseHighBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="RootGrid">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledAccentBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="white"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="ContentPresenter">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledTransparentBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentPresenter x:Name="ContentPresenter" AutomationProperties.AccessibilityView="Raw" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTransitions="{TemplateBinding ContentTransitions}" Content="{TemplateBinding Content}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid Name="Padder">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="WindowStates">
+                <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="500" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Feed.Margin" Value="12,24,12,0" />
+                        <Setter Target="Header.Height" Value="Auto" />
+                        <Setter Target="Feed.HorizontalAlignment" Value="Center"/>
+                        <Setter Target="Title.HorizontalAlignment" Value="Center"/>
+                        <Setter Target="Date.HorizontalAlignment" Value="Center"/>
+                        <Setter Target="Title.MaxWidth" Value="700"/>
+                        <Setter Target="ContentRTB.MaxWidth" Value="600"/>
+                        <Setter Target="Title.TextAlignment" Value="Center" />
+                        <Setter Target="Date.FontSize" Value="15" />
+                        <Setter Target="Title.FontSize" Value="24" />
+                        <Setter Target="Feed.FontSize" Value="15" />
+                        <Setter Target="HeadingCapsBlock.Margin" Value="12,14,0,0" />
+                        <Setter Target="Header.Background" Value="{ThemeResource SystemChromeMediumColor}" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Name="Header" Grid.Row="0" Height="48" VerticalAlignment="Top" Background="{ThemeResource SystemChromeLowColor}">
+            <TextBlock Tapped="HeadingCapsBlock_Tapped" x:Name="HeadingCapsBlock" Canvas.ZIndex="4" HorizontalAlignment="Left" Margin="60,14,0,0" TextWrapping="Wrap" 
+                       x:Uid="Article" VerticalAlignment="Top" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontWeight="Bold" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Name="FavBtn" Style="{StaticResource FavButton}" FontFamily="Segoe MDL2 Assets" Content="&#xE224;" Click="FavButton_Click" Width="48" Height="48"
+                        FontSize="20" x:Uid="AddToFavorites" VerticalAlignment="Center" Background="Transparent" />
+                <Button FontFamily="Segoe MDL2 Assets" Content="&#xE72D;" Click="ShareButton_Click" Width="48" Height="48"
+                        FontSize="20" x:Uid="Share" VerticalAlignment="Center" Background="Transparent" />
+                <Button FontFamily="Segoe MDL2 Assets" Content="&#xE71B;" Background="Transparent" Width="48" Height="48"
+                        FontSize="20" x:Uid="OpenInEdge" Click="ArticleLink_Tapped" />
+            </StackPanel>
+        </Grid>
+        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Grid.Row="1">
+            <ScrollViewer x:Name="Scroller">
+                <StackPanel Margin="0,12">
+                    <TextBlock FontStyle="Italic" Name="Feed" TextTrimming="CharacterEllipsis" FontSize="12" Margin="12,0" Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}"/>
+                    <TextBlock Name="Title" TextWrapping="Wrap" FontSize="20" Margin="12,8" FontWeight="SemiBold" />
+                    <TextBlock FontStyle="Italic" Name="Date" TextWrapping="Wrap" FontSize="12" Margin="12,0,12,12" Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}"/>
+                    <RichTextBlock Name="ContentRTB" TextWrapping="Wrap" Margin="12,0" />
+                </StackPanel> 
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Page>

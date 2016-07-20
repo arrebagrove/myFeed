@@ -1,0 +1,342 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddButton.Content" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="AddToFavorites.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Добавить в избранное</value>
+  </data>
+  <data name="Article.Text" xml:space="preserve">
+    <value>СТАТЬЯ</value>
+  </data>
+  <data name="ArticleL.Text" xml:space="preserve">
+    <value>Статья</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="CanNotGetData" xml:space="preserve">
+    <value>Данные об источнике получить не удалось.</value>
+  </data>
+  <data name="ChangeTextSize.Text" xml:space="preserve">
+    <value>Изменение размера текста в режиме чтения.</value>
+  </data>
+  <data name="ChooseArticle.Text" xml:space="preserve">
+    <value>Выберите статью из списка слева!</value>
+  </data>
+  <data name="ChooseArticleAndRead.Text" xml:space="preserve">
+    <value>И приступайте к чтению.</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="DeleteAction" xml:space="preserve">
+    <value>Это действие приведёт к удалению выбранного элемента из списка источников.</value>
+  </data>
+  <data name="DeleteElement" xml:space="preserve">
+    <value>Удалить элемент?</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Твой личный RSS ридер!</value>
+  </data>
+  <data name="DisableImgDesc.Text" xml:space="preserve">
+    <value>Загрузка изображений. Отключение этой опции может помочь сэкономить трафик, если используется лимитированное соединение с интернетом.</value>
+  </data>
+  <data name="DisplayName.Text" xml:space="preserve">
+    <value>MYFEED</value>
+  </data>
+  <data name="EnterLink.PlaceholderText" xml:space="preserve">
+    <value>Введите ссылку на RSS ленту</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Ошибка</value>
+  </data>
+  <data name="Favorites.Text" xml:space="preserve">
+    <value>ИЗБРАННОЕ</value>
+  </data>
+  <data name="FavoritesL.Text" xml:space="preserve">
+    <value>Избранное</value>
+  </data>
+  <data name="FavoritesWelcome.Text" xml:space="preserve">
+    <value>Здесь отображаются избранные статьи.</value>
+  </data>
+  <data name="FavoritesWelcomePressStar.Text" xml:space="preserve">
+    <value>Нажмите на символ звёздочки во время чтения, чтобы поместить статью сюда.</value>
+  </data>
+  <data name="Feed.Text" xml:space="preserve">
+    <value>МОЯ ЛЕНТА</value>
+  </data>
+  <data name="FeedL.Text" xml:space="preserve">
+    <value>Моя лента</value>
+  </data>
+  <data name="Feedlist.Text" xml:space="preserve">
+    <value>ИСТОЧНИКИ</value>
+  </data>
+  <data name="FeedlistL.Text" xml:space="preserve">
+    <value>Источники</value>
+  </data>
+  <data name="FontSizeLarge.Content" xml:space="preserve">
+    <value>Крупный</value>
+  </data>
+  <data name="FontSizeMiddle.Content" xml:space="preserve">
+    <value>Средний</value>
+  </data>
+  <data name="FontSizeSmall.Content" xml:space="preserve">
+    <value>Мелкий</value>
+  </data>
+  <data name="LinkNotValid" xml:space="preserve">
+    <value>Ссылка введена некорректно. Она должна выглядеть вот так: http://example.com/rss</value>
+  </data>
+  <data name="MenuDelete.Text" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="MenuOpenInEdge.Text" xml:space="preserve">
+    <value>Открыть в браузере</value>
+  </data>
+  <data name="MenuRead.Text" xml:space="preserve">
+    <value>Читать</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>Ок</value>
+  </data>
+  <data name="OpenInEdge.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Открыть в браузере</value>
+  </data>
+  <data name="Personalization.Text" xml:space="preserve">
+    <value>Персонализация</value>
+  </data>
+  <data name="Reset.Text" xml:space="preserve">
+    <value>Сброс</value>
+  </data>
+  <data name="ResetButton.Content" xml:space="preserve">
+    <value>Сброс</value>
+  </data>
+  <data name="ResetText.Text" xml:space="preserve">
+    <value>Удаление всех данных приложения и сброс настроек к значениям по умолчанию. После применения настройки произойдет перезапуск приложения.</value>
+  </data>
+  <data name="Settings.Text" xml:space="preserve">
+    <value>НАСТРОЙКИ</value>
+  </data>
+  <data name="SettingsL.Text" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="Share.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Поделиться статьёй</value>
+  </data>
+  <data name="ShowMessageAlert" xml:space="preserve">
+    <value>Это действие приведёт к очистке списка источников. Удалённые данные восстановить невозможно.</value>
+  </data>
+  <data name="ShowMessageTitle" xml:space="preserve">
+    <value>Вы уверены?</value>
+  </data>
+  <data name="ShowmoreButton.Content" xml:space="preserve">
+    <value>Показать больше новостей...</value>
+  </data>
+  <data name="SiteFeed" xml:space="preserve">
+    <value>Лента новостей сайта </value>
+  </data>
+  <data name="UpdateButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Обновить страницу</value>
+  </data>
+  <data name="NewWelcome.Text" xml:space="preserve">
+    <value>Добавьте первую RSS ленту!</value>
+  </data>
+  <data name="NewWelcomeBtn.Content" xml:space="preserve">
+    <value>Добавить источник</value>
+  </data>
+  <data name="NewWelcomeDesc.Text" xml:space="preserve">
+    <value>Здесь будут отображаться ваши новости.</value>
+  </data>
+  <data name="NoInternet.Text" xml:space="preserve">
+    <value>Нет соединения с интернетом</value>
+  </data>
+  <data name="NoInternetFixed.Text" xml:space="preserve">
+    <value>Проблема устранена?</value>
+  </data>
+  <data name="NoInternetUpd.Content" xml:space="preserve">
+    <value>Обновить страницу</value>
+  </data>
+  <data name="FeedlistWelcomeDesc.Text" xml:space="preserve">
+    <value>Она может выглядеть так:</value>
+  </data>
+  <data name="FeedlistWelcomeTitle.Text" xml:space="preserve">
+    <value>Укажите ссылку на ваш первый RSS канал!</value>
+  </data>
+  <data name="LinkExists" xml:space="preserve">
+    <value>Вы не можете добавить дважды один и тот же источник.</value>
+  </data>
+  <data name="DeleteItem.Text" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="News" xml:space="preserve">
+    <value>Последние новости</value>
+  </data>
+  <data name="AddNewCategory.Content" xml:space="preserve">
+    <value>Добавить категорию</value>
+  </data>
+  <data name="CategoryDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="CategoryDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="CategoryDialog.Title" xml:space="preserve">
+    <value>Добавить категорию</value>
+  </data>
+  <data name="EnterALinkToRssFeed.Text" xml:space="preserve">
+    <value>Введите ссылку на RSS ленту:</value>
+  </data>
+  <data name="EnterNameOfNewCategory.Text" xml:space="preserve">
+    <value>Введите название новой категории:</value>
+  </data>
+  <data name="OpenFullSize" xml:space="preserve">
+    <value>Открыть в полном размере</value>
+  </data>
+  <data name="PinToStart.Text" xml:space="preserve">
+    <value>Закрепить на начальном экране</value>
+  </data>
+  <data name="UnpinFromStart.Text" xml:space="preserve">
+    <value>Открепить от начального экрана</value>
+  </data>
+  <data name="Notify15min.Content" xml:space="preserve">
+    <value>каждые 15 минут</value>
+  </data>
+  <data name="Notify1hour.Content" xml:space="preserve">
+    <value>каждый час</value>
+  </data>
+  <data name="Notify30min.Content" xml:space="preserve">
+    <value>каждые 30 минут</value>
+  </data>
+  <data name="Notify3hours.Content" xml:space="preserve">
+    <value>каждые 3 часа</value>
+  </data>
+  <data name="NotifyCheckTime.Text" xml:space="preserve">
+    <value>Как часто служба уведомлений должна проверять, появилось ли что-то новое в ваших RSS каналах?</value>
+  </data>
+  <data name="NotifyDisabled.Content" xml:space="preserve">
+    <value>никогда</value>
+  </data>
+  <data name="AddToFavs.Text" xml:space="preserve">
+    <value>Добавить в избраннное</value>
+  </data>
+  <data name="PinButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Закрепить в меню Пуск</value>
+  </data>
+</root>

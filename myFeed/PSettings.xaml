@@ -1,0 +1,93 @@
+﻿<Page
+    x:Class="myFeed.PSettings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:myFeed"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <EntranceNavigationTransitionInfo/>
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+
+    <Grid Name="Padder">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="WindowStates">
+                <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="500" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="HeadingCapsBlock.Margin" Value="12,14,0,0" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Name="Header" Grid.Row="0" Height="48" VerticalAlignment="Top">
+            <StackPanel VerticalAlignment="Top">
+                <TextBlock x:Name="HeadingCapsBlock" Canvas.ZIndex="4" HorizontalAlignment="Left" Margin="60,14,0,0" TextWrapping="Wrap" 
+                           x:Uid="Settings" VerticalAlignment="Top" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontWeight="Bold" />
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <ScrollViewer x:Name="PageStackPanel" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <StackPanel>
+                    <Pivot>
+                        <PivotItem>
+                            <PivotItem.Header>
+                                <TextBlock x:Uid="Personalization" FontSize="15" FontWeight="Normal"/>
+                            </PivotItem.Header>
+                            <Grid MinHeight="500">
+                                <StackPanel>
+                                    <StackPanel Margin="0,6">
+                                        <TextBlock x:Uid="ChangeTextSize" TextWrapping="Wrap" />
+                                        <ComboBox Name="FontCombo" Width="170" Margin="0,6" SelectionChanged="FontCombo_SelectionChanged">
+                                            <ComboBoxItem x:Uid="FontSizeSmall" />
+                                            <ComboBoxItem x:Uid="FontSizeMiddle"/>
+                                            <ComboBoxItem x:Uid="FontSizeLarge" />
+                                        </ComboBox>
+                                    </StackPanel>
+                                    <StackPanel Margin="0,6">
+                                        <TextBlock x:Uid="DisableImgDesc" TextWrapping="Wrap"  Margin="0,5"/>
+                                        <ToggleSwitch x:Name="toggleSwitch" Toggled="toggleSwitch_Toggled" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="0,6">
+                                        <TextBlock x:Uid="NotifyCheckTime" TextWrapping="Wrap" Margin="0,5"/>
+                                        <ComboBox Name="NotifyCombo" Width="170" Margin="0,6" SelectionChanged="NotifyCombo_SelectionChanged">
+                                            <ComboBoxItem x:Uid="Notify30min" />
+                                            <ComboBoxItem x:Uid="Notify1hour" />
+                                            <ComboBoxItem x:Uid="Notify3hours" />
+                                            <ComboBoxItem x:Uid="NotifyDisabled" />
+                                        </ComboBox>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                        </PivotItem>
+                        <PivotItem>
+                            <PivotItem.Header>
+                                <TextBlock x:Uid="Reset" FontSize="15" FontWeight="Normal"/>
+                            </PivotItem.Header>
+                            <Grid MinHeight="500">
+                                <StackPanel Margin="0,6">
+                                    <TextBlock x:Uid="ResetText" TextWrapping="Wrap"/>
+                                    <Button Name="ClearButton" x:Uid="ResetButton" Click="ClearButton_Click" Margin="0,10"/>
+                                </StackPanel>
+                            </Grid>
+                        </PivotItem>
+                    </Pivot>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Page>
