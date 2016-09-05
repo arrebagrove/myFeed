@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -23,9 +22,10 @@ namespace myFeed
 
         public ItemsControlView()
         {
-            this.InitializeComponent();
-            this.Loaded += async (s, a) =>
+            InitializeComponent();
+            Loaded += async (s, a) =>
             {
+                if (bag.list.Count == 0) Welcome.Visibility = Visibility.Visible;
                 await Go(bag.list);
                 foreach (PFeedItem item in Fullfeed.GetRange(0, (Fullfeed.Count >= itemscount) 
                     ? itemscount : Fullfeed.Count)) CompareAddTimeRead(item);
@@ -37,12 +37,12 @@ namespace myFeed
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             bag = e.Parameter as Bag;
-            bag.list.Remove(bag.list.First());
         }
 
         private void CompareAddTimeRead(PFeedItem item)
         {
-            item.dateoffset = (DateTime.Now.Date == item.PublishedDate.Date) ? item.PublishedDate.DateTime.ToString("HH:mm") : item.dateoffset = item.PublishedDate.DateTime.ToString("MM.dd");
+            item.dateoffset = (DateTime.Now.Date == item.PublishedDate.Date) ? item.PublishedDate.DateTime.ToString("HH:mm") : 
+                item.dateoffset = item.PublishedDate.DateTime.ToString("MM.dd");
             item.opacity = App.Read.Contains(item.GetTileId()) ? 0.5 : 1;
             Display.Items.Add(item);
         }
@@ -59,21 +59,21 @@ namespace myFeed
             else
             {
                 foreach (PFeedItem item in Fullfeed.GetRange(itemscount, 10)) CompareAddTimeRead(item);
-                itemscount = itemscount + 10;
+                itemscount += 10;
             }
             Showmore.IsEnabled = true;
         }
 
-        private async Task Go(List<string> sites)
+        private async Task Go(List<Website> sites)
         {
             List<PFeedItem> fullfeed = new List<PFeedItem>();
-            foreach (string website in sites)
+            foreach (Website website in sites)
             {
                 SyndicationFeed feed = new SyndicationFeed();
 
                 try
                 {
-                    feed = await SyndicationConverter.RetrieveFeedAsync(website);
+                    feed = await SyndicationConverter.RetrieveFeedAsync(website.url);
                 }
                 catch
                 {
@@ -91,7 +91,7 @@ namespace myFeed
                     try
                     {
                         target.content = item.Summary.Text;
-                        if (App.DownloadImages)
+                        if (App.config.DownloadImages)
                         {
                             Match match = Regex.Match(target.content, @"<img(.*?)>", RegexOptions.Singleline);
                             if (match.Success)
@@ -121,8 +121,9 @@ namespace myFeed
         private async void MarkAsRead(PFeedItem item)
         {
             if (App.Read.Contains(item.GetTileId())) return;
-            Button button = VisualTreeHelper.GetChild((FrameworkElement)Display.ItemContainerGenerator.ContainerFromItem(item), 0) as Button;
-            await FileIO.AppendTextAsync(await ApplicationData.Current.LocalFolder.GetFileAsync("read.txt"), item.GetTileId() + ";");
+            Button button = VisualTreeHelper.GetChild((FrameworkElement)Display.ContainerFromItem(item), 0) as Button;
+            await FileIO.AppendTextAsync(await ApplicationData.Current.LocalFolder.GetFileAsync("read.txt"), 
+                item.GetTileId() + ";");
             App.Read = App.Read + item.GetTileId() + ";";
             button.Opacity = 0.5;
         }
@@ -170,6 +171,11 @@ namespace myFeed
         private void Button_RightTapped(object sender, RoutedEventArgs e)
         {
             FlyoutBase.ShowAttachedFlyout(sender as FrameworkElement);
+        }
+
+        private void NavigateToSourcePage_Click(object sender, RoutedEventArgs e)
+        {
+            bag.parentframe.Navigate(typeof(PFeedList));
         }
     }
 }

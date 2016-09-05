@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 using Windows.Storage;
@@ -8,7 +10,7 @@ namespace myFeed
 {
     public static class SerializerExtensions
     {
-        public static async void SerializeObject<T>(T serializableObject, string fileName)
+        public static async void SerializeObject<T>(T serializableObject, StorageFile file)
         {
             try
             {
@@ -20,28 +22,27 @@ namespace myFeed
                     stream.Position = 0;
                     xmlDocument.Load(stream);
 
-                    StorageFolder storageFolder = await ApplicationData.Current.LocalFolder.GetFolderAsync("favorites");
-
                     using (var stringWriter = new StringWriter())
                     using (var xmlTextWriter = XmlWriter.Create(stringWriter))
                     {
                         xmlDocument.WriteTo(xmlTextWriter);
                         xmlTextWriter.Flush();
                         string finish = stringWriter.GetStringBuilder().ToString();
-                        await FileIO.WriteTextAsync(await storageFolder.CreateFileAsync(fileName), finish);
+                        await FileIO.WriteTextAsync(file, finish);
                     }
 
                     stream.Dispose();
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                //Log exception
+                Debug.Write(ex.ToString());
             }
         }
 
-        public static T DeSerializeObject<T>(string filestring)
+        public static async Task<T> DeSerializeObject<T>(StorageFile file)
         {
+            string filestring = await FileIO.ReadTextAsync(file);
             T objectOut = default(T);
             try
             {
@@ -52,9 +53,9 @@ namespace myFeed
                     reader.Dispose();
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                //Log exception
+                Debug.Write(ex.ToString());
             }
             return objectOut;
         }

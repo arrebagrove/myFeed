@@ -176,7 +176,8 @@
                                 </ItemsControl.ItemContainerTransitions>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Button HorizontalAlignment="Stretch" Style="{StaticResource myControl}" Tapped="ListTapped" RightTapped="SavedItem_Holding" Holding="SavedItem_Holding">
+                                        <Button HorizontalAlignment="Stretch" Style="{StaticResource myControl}" 
+                                                Tapped="ListTapped" RightTapped="SavedItem_Holding" Holding="SavedItem_Holding">
                                             <FlyoutBase.AttachedFlyout>
                                                 <MenuFlyout>
                                                     <MenuFlyoutItem Name="ReadItem" Click="ReadItem_Click" x:Uid="MenuRead" />

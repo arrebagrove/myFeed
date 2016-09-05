@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Xml;
 using Windows.ApplicationModel.Resources;
 using Windows.Storage;
 using Windows.UI.Popups;
@@ -23,7 +18,7 @@ namespace myFeed
     {
         public SourcesView()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         public class ListFeed
@@ -34,23 +29,22 @@ namespace myFeed
             public string feedimg { get; set; }
         }
 
-        List<string> list = new List<string>();
-        string categoryname = string.Empty;
+        Category cat = new Category();
+        string website_buffer = string.Empty;
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            list = e.Parameter as List<string>;
-            CategoryTitle.Content = list.First();
-            categoryname = list.First();
-            list.Remove(list.First());
-            list.Remove(list.Last());
-            CountInCategory.Content = list.Count;
+            cat = e.Parameter as Category;
+            CategoryTitle.Content = cat.title;
+            CountInCategory.Content = cat.websites.Count;
             SyndicationClient client = new SyndicationClient();
-            foreach (string str in list)
+
+            foreach (Website ws in cat.websites)
             {
-                ListFeed feeditem = await GetItem(client, str);
+                ListFeed feeditem = await GetItem(client, ws.url);
                 Display.Items.Add(feeditem);
             }
+
             LoadStatus.IsIndeterminate = false;
             LoadStatus.Opacity = 0;
         }       
@@ -61,10 +55,11 @@ namespace myFeed
             LoadStatus.Opacity = 1;
             ResourceLoader rl = new ResourceLoader();
             string link = RssLink.Text;
-            StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync("sources");
-            string filecontent = await FileIO.ReadTextAsync(file);
 
-            if (!Regex.IsMatch(link, @"^http(s)?://*") || link.Contains(';'))
+            Categories cats = await SerializerExtensions.DeSerializeObject<Categories>(
+                await ApplicationData.Current.LocalFolder.GetFileAsync("sites"));
+
+            if (!Regex.IsMatch(link, @"^http(s)?://*"))
             {
                 var dialog = new MessageDialog(rl.GetString("LinkNotValid"));
                 dialog.Title = rl.GetString("Error");
@@ -76,22 +71,21 @@ namespace myFeed
                 return;
             }
 
-            if (filecontent.Contains(link))
+            Website wb = new Website();
+            wb.url = link;
+            cat.websites.Add(wb);
+            foreach (Category c in cats.categories)
             {
-                var dialog1 = new MessageDialog(rl.GetString("LinkExists"));
-                dialog1.Title = rl.GetString("Error");
-                dialog1.Commands.Add(new UICommand { Label = rl.GetString("Ok"), Id = 0 });
-                var res1 = await dialog1.ShowAsync();
-
-                LoadStatus.IsIndeterminate = false;
-                LoadStatus.Opacity = 0;
-                return;
+                if (c.title != cat.title) continue;
+                c.websites.Add(wb);
+                break;
             }
 
-            await FileIO.WriteTextAsync(file, filecontent.Replace(CategoryTitle.Content + ";", CategoryTitle.Content + ";" + link + ';'));        
+            SerializerExtensions.SerializeObject(cats, 
+                await ApplicationData.Current.LocalFolder.GetFileAsync("sites"));
+
             ExpandItems(MainBorder.Height, MainBorder.Height + 66);
-            list.Add(link);
-            CountInCategory.Content = list.Count;
+            CountInCategory.Content = cat.websites.Count;
             Display.Items.Add(await GetItem(new SyndicationClient(), link));
             LoadStatus.IsIndeterminate = false;
             LoadStatus.Opacity = 0;
@@ -107,14 +101,36 @@ namespace myFeed
             var res = await dialog.ShowAsync();
             if ((int)res.Id == 0)
             {
-                StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync("sources");
-                string filestring = await FileIO.ReadTextAsync(file);
+                Categories cats = await SerializerExtensions.DeSerializeObject<Categories>(
+                    await ApplicationData.Current.LocalFolder.GetFileAsync("sites"));
+
                 Button stack = (Button)sender;
                 ListFeed p = (ListFeed)stack.DataContext;
-                await FileIO.WriteTextAsync(file, filestring.Replace(p.feedid + ';', string.Empty));
+                string link = p.feedid;
+
+                foreach (Website wb in cat.websites)
+                {
+                    if (wb.url != link) continue;
+                    cat.websites.Remove(wb);
+                    break;
+                }
+
+                foreach (Category c in cats.categories)
+                {
+                    if (c.title != cat.title) continue;
+                    foreach (Website wb in c.websites)
+                    {
+                        if (wb.url != link) continue;
+                        c.websites.Remove(wb);
+                        break;
+                    }
+                    break;
+                }
+
+                SerializerExtensions.SerializeObject(cats, await ApplicationData.Current.LocalFolder.GetFileAsync("sites"));
+
                 Display.Items.Remove(p);
-                list.Remove(p.feedid);
-                CountInCategory.Content = list.Count;
+                CountInCategory.Content = cat.websites.Count;
                 ExpandItems(MainBorder.Height, MainBorder.Height - 66);
             }
         }
@@ -162,12 +178,12 @@ namespace myFeed
             if (MainBorder.Height == 46)
             {
                 ExpandCollapse.Content = "";
-                ExpandItems(46, (list.Count * 66) + 46 + 80); 
+                ExpandItems(46, (cat.websites.Count * 66) + 46 + 80); 
             }
             else
             {
                 ExpandCollapse.Content = "";
-                ExpandItems((list.Count * 66) + 46 + 80, 46);
+                ExpandItems((cat.websites.Count * 66) + 46 + 80, 46);
             }
         }
 
@@ -180,6 +196,7 @@ namespace myFeed
                 Duration = TimeSpan.FromSeconds(0.2),
                 EnableDependentAnimation = true,
             };
+
             Storyboard.SetTarget(fade, MainBorder);
             Storyboard.SetTargetProperty(fade, "Height");
             Storyboard openpane = new Storyboard();
@@ -194,11 +211,110 @@ namespace myFeed
 
         private async void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
-            StorageFile target = await ApplicationData.Current.LocalFolder.GetFileAsync("sources");
-            IList<string> filelist = await FileIO.ReadLinesAsync(target);
-            foreach (string item in filelist) if (item.Contains(categoryname)) { filelist.Remove(item); break; }
-            await FileIO.WriteLinesAsync(target, filelist);
+            Categories cats = await SerializerExtensions.DeSerializeObject<Categories>(
+                await ApplicationData.Current.LocalFolder.GetFileAsync("sites"));
+
+            foreach (Category c in cats.categories)
+            {
+                if (c.title != cat.title) continue;
+                cats.categories.Remove(c);
+                break;
+            }
+
+            SerializerExtensions.SerializeObject(cats, 
+                await ApplicationData.Current.LocalFolder.GetFileAsync("sites"));
+
             ExpandItems(MainBorder.Height, 0);
+        }
+
+        private async void RenameCategory_Click(object sender, RoutedEventArgs e)
+        {
+            CategoryDialog addcat = new CategoryDialog();
+            addcat.KeyDown += (s, a) =>
+            {
+                if (a.Key == Windows.System.VirtualKey.Enter)
+                {
+                    RenameCategory(addcat);
+                    addcat.Hide();
+                    a.Handled = true;
+                }
+            };
+
+            if (await addcat.ShowAsync() == ContentDialogResult.Primary)
+            {
+                RenameCategory(addcat);
+                addcat.Hide();
+            }
+        }
+
+        private async void RenameCategory(CategoryDialog dialog)
+        {
+            Categories cats = await SerializerExtensions.DeSerializeObject<Categories>(
+                await ApplicationData.Current.LocalFolder.GetFileAsync("sites"));
+
+            foreach (Category c in cats.categories)
+            {
+                if (c.title == dialog.CategoryName)
+                {
+                    await (new MessageDialog((new ResourceLoader()).GetString("CategoryExists")).ShowAsync());
+                    return;
+                }
+            }
+
+            foreach (Category c in cats.categories)
+            {
+                if (c.title != cat.title) continue;
+                c.title = dialog.CategoryName;
+                cat.title = dialog.CategoryName;
+                CategoryTitle.Content = dialog.CategoryName;
+                break;
+            }
+
+            SerializerExtensions.SerializeObject(cats,
+                await ApplicationData.Current.LocalFolder.GetFileAsync("sites"));
+        }
+
+        private void Grid_RightTapped(object sender, RoutedEventArgs e)
+        {
+            ListFeed feeditem = (ListFeed)((FrameworkElement)sender).DataContext;
+            ResourceLoader rl = new ResourceLoader();
+
+            foreach (Website website in cat.websites)
+            {
+                if (website.url != feeditem.feedid) continue;
+                MenuFlyout menu = FlyoutBase.GetAttachedFlyout((Grid)sender) as MenuFlyout;
+                MenuFlyoutItem item = menu.Items[0] as MenuFlyoutItem;
+                if (website.notify)
+                {
+                    item.Text = rl.GetString("NotifyOff");
+                }
+                else
+                {
+                    item.Text = rl.GetString("NotifyOn");
+                }
+                website_buffer = feeditem.feedid;
+                break;
+            }
+
+            FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
+        }
+
+        private async void ToggleNotifications_Click(object sender, RoutedEventArgs e)
+        {
+            Categories cats = await SerializerExtensions.DeSerializeObject<Categories>(
+                await ApplicationData.Current.LocalFolder.GetFileAsync("sites"));
+
+            foreach (Category c in cats.categories)
+            {
+                if (c.title != cat.title) continue;
+                foreach (Website website in c.websites) 
+                    if (website.url == website_buffer)
+                        website.notify = !website.notify;
+                cat = c;
+            }
+
+            SerializerExtensions.SerializeObject(cats,
+                await ApplicationData.Current.LocalFolder.GetFileAsync("sites"));
         }
     }
 }

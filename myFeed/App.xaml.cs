@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
@@ -9,15 +10,24 @@ namespace myFeed {
 
     sealed partial class App : Application
     {
-        // служебные, управление навигацией
+        /// <summary>
+        /// Контейнер для сериализации информации о пользовательских настройках.
+        /// </summary>
+        [DataContract]
+        public class ConfigFile
+        {
+            public int FontSize = 17;
+            public uint CheckTime = 60;
+            public bool DownloadImages = true;
+        }
+
+        /// <summary>
+        /// Содержит информацию о настройках приложения.
+        /// </summary>
+        internal static ConfigFile config = new ConfigFile();
         internal static int ChosenIndex;
         internal static bool CanNavigate = false;
         internal static string Read = string.Empty;
-
-        // пользовательские настройки
-        internal static int FontSize = 17;
-        internal static uint CheckTime = 15;
-        internal static bool DownloadImages = true;
 
         /// <summary>
         /// Инициализирует одноэлементный объект приложения.  Это первая выполняемая строка разрабатываемого

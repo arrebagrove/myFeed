@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using Windows.ApplicationModel.Resources;
 using Windows.Storage;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -10,27 +11,28 @@ namespace myFeed
 {
     public sealed partial class PFeedList : Page
     {
-        private List<string> sourceslist = new List<string>();
-        
         public PFeedList()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             App.ChosenIndex = 3;
             App.CanNavigate = true;
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            string filecontent = await FileIO.ReadTextAsync(await ApplicationData.Current.LocalFolder.GetFileAsync("sources"));
-            sourceslist = filecontent.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList();
-            sourceslist.Remove(sourceslist.Last());
-            foreach (string cat in sourceslist)
+            Categories cats = await SerializerExtensions.DeSerializeObject<Categories>(
+                await ApplicationData.Current.LocalFolder.GetFileAsync("sites"));
+
+            if (cats != null)
             {
-                List<string> catlist = cat.Split(';').ToList();
-                Frame frame = new Frame();
-                frame.Navigate(typeof(SourcesView), catlist);
-                SourcesList.Items.Add(frame);
+                foreach (Category cat in cats.categories)
+                {
+                    Frame frame = new Frame();
+                    frame.Navigate(typeof(SourcesView), cat);
+                    SourcesList.Items.Add(frame);
+                }
             }
+
             CategoryAdd.Visibility = Visibility.Visible;
         }
 
@@ -44,30 +46,39 @@ namespace myFeed
                     AddNewCategory(addcat);
                     addcat.Hide();
                     a.Handled = true;
-                    return;
                 }
             };
-            var res = await addcat.ShowAsync();
-            if (res == ContentDialogResult.Primary)
+
+            if (await addcat.ShowAsync() == ContentDialogResult.Primary)
             {
                 AddNewCategory(addcat);
                 addcat.Hide();
-                return;
             }
         }
 
         private async void AddNewCategory(CategoryDialog dialog)
         {
-            string newcat = dialog.CategoryName;
-            if (newcat.Contains(';')) return;
-            StorageFile targetfile = await ApplicationData.Current.LocalFolder.GetFileAsync("sources");
-            string filecontent = await FileIO.ReadTextAsync(targetfile);
-            if (filecontent.Contains(newcat)) return;
-            await FileIO.AppendTextAsync(targetfile, newcat + ";" + Environment.NewLine);
-            sourceslist.Add(dialog.CategoryName + ";" + Environment.NewLine);
-            List<string> catlist = sourceslist.Last().Split(';').ToList();
+            Categories cats = await SerializerExtensions.DeSerializeObject<Categories>(
+                await ApplicationData.Current.LocalFolder.GetFileAsync("sites"));
+
+            Category cat = new Category();
+            cat.title = dialog.CategoryName;
+            cat.websites = new List<Website>();
+
+            foreach (Category c in cats.categories)
+            {
+                if (c.title == dialog.CategoryName)
+                {
+                    await (new MessageDialog((new ResourceLoader()).GetString("CategoryExists")).ShowAsync());
+                    return;
+                }
+            }
+
+            cats.categories.Add(cat);          
+            SerializerExtensions.SerializeObject(cats, await ApplicationData.Current.LocalFolder.GetFileAsync("sites"));
+
             Frame frame = new Frame();
-            frame.Navigate(typeof(SourcesView), catlist);
+            frame.Navigate(typeof(SourcesView), cat);
             SourcesList.Items.Add(frame);
         }
     }

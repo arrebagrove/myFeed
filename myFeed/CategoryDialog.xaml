@@ -9,9 +9,7 @@
     x:Uid="CategoryDialog"
     Title="Добавить категорию"
     PrimaryButtonText="Добавить"
-    SecondaryButtonText="Отмена"
-    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
-    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+    SecondaryButtonText="Отмена">
 
     <StackPanel Margin="0,12,0,0">
         <TextBlock x:Uid="EnterNameOfNewCategory" Text="Введите название новой категории." Margin="0,12"/>

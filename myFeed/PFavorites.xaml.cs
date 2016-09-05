@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Notifications;
-using Windows.UI.Popups;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -52,13 +51,7 @@ namespace myFeed
 
             if (files.Count == 0) Welcome.Visibility = Visibility.Visible;
 
-            foreach (StorageFile file in files)
-            {
-                string str = await FileIO.ReadTextAsync(file);
-                PFeedItem item = SerializerExtensions.DeSerializeObject<PFeedItem>(str);
-                itemlist.Add(item);
-            }
-
+            foreach (StorageFile file in files) itemlist.Add(await SerializerExtensions.DeSerializeObject<PFeedItem>(file));
             await Task.Delay(TimeSpan.FromMilliseconds(5));
 
             if (NavUri != null)
@@ -71,10 +64,7 @@ namespace myFeed
             }
             else
             {
-                foreach (PFeedItem item in itemlist)
-                {
-                    CompareAddTimeRead(item, list, false);
-                }
+                foreach (PFeedItem item in itemlist) CompareAddTimeRead(item, list, false);
             }
         }
 
@@ -163,21 +153,6 @@ namespace myFeed
             openpane.Begin();
         }
 
-        private async void PinBtn_Click(object sender, RoutedEventArgs e)
-        {
-            string title = "Избранное";
-            SecondaryTile secondaryTile = new SecondaryTile(
-                title,
-                title,
-                title,
-                "fav",
-                TileOptions.ShowNameOnWideLogo,
-                new Uri("ms-appx:///Assets/Square150x150Logo.scale-200.png"),
-                new Uri("ms-appx:///Assets/Wide310x150Logo.scale-200.png")
-            );
-            await secondaryTile.RequestCreateAsync();
-        }
-
         private void SavedItem_Holding(object sender, RoutedEventArgs e)
         {
             PFeedItem feeditem = (PFeedItem)((FrameworkElement)sender).DataContext;
@@ -207,6 +182,19 @@ namespace myFeed
             if (tile != null) await tile.RequestDeleteAsync();
         }
 
+        private async void PinBtn_Click(object sender, RoutedEventArgs e)
+        {
+            string title = "Избранное";
+            SecondaryTile secondaryTile = new SecondaryTile(
+                title,
+                title,
+                "fav",
+                new Uri("ms-appx:///Assets/Square150x150Logo.scale-200.png"),
+                TileSize.Square150x150
+            );
+            await secondaryTile.RequestCreateAsync();
+        }
+
         private async void PinToStart_Click(object sender, RoutedEventArgs e)
         {
             PFeedItem feeditem = (PFeedItem)((FrameworkElement)sender).DataContext;
@@ -214,31 +202,29 @@ namespace myFeed
 
             SecondaryTile secondaryTile = new SecondaryTile(
                 TileId,
-                "Статья myFeed",
-                "Статья myFeed",
+                "myFeed Article",
                 feeditem.link,
-                TileOptions.ShowNameOnLogo,
                 new Uri("ms-appx:///Assets/Square150x150Logo.scale-200.png"),
-                new Uri("ms-appx:///Assets/Wide310x150Logo.scale-200.png")
+                TileSize.Square150x150
             );
 
             await secondaryTile.RequestCreateAsync();
-            
-            string contents 
-                = "<tile>"
-                + "<visual>"
-                + "<binding template='TileMedium'>"
-                + "<text hint-wrap='true' hint-maxLines='2' hint-style='caption'>" + feeditem.title +"</text>"
-                + "<text hint-style='captionSubtle'>"+ feeditem.feed +"</text>"
-                + "<text hint-style='captionSubtle'>" + feeditem.PublishedDate.ToString("dd.MM.yyyy") + "</text>"
-                + "</binding>"
-                + "<binding template='TileWide'>"
-                + "<text hint-wrap='true' hint-maxLines='3' hint-style='caption'>" + feeditem.title + "</text>"
-                + "<text hint-style='captionSubtle'>" + feeditem.feed + "</text>"
-                + "<text hint-style='captionSubtle'>" + feeditem.PublishedDate.ToString("dd.MM.yyyy HH:mm") + "</text>"
-                + "</binding>"
-                + "</visual>"
-                + "</tile>";
+            string contents = string.Format(@"
+                <tile>
+                    <visual>
+                        <binding template='TileMedium'>
+                            <text hint-wrap='true' hint-maxLines='2' hint-style='caption'>{0}</text>
+                            <text hint-style='captionSubtle'>{1}</text>
+                            <text hint-style='captionSubtle'>{2}</text>
+                        </binding>
+                        <binding template='TileWide'>
+                            <text hint-wrap='true' hint-maxLines='3' hint-style='caption'>{0}</text>
+                            <text hint-style='captionSubtle'>{1}</text>
+                            <text hint-style='captionSubtle'>{3}</text>
+                        </binding>
+                    </visual>
+                </tile> ", feeditem.title, feeditem.feed, feeditem.PublishedDate.ToString("dd.MM.yyyy"), 
+                feeditem.PublishedDate.ToString("dd.MM.yyyy HH: mm"));
 
             Windows.Data.Xml.Dom.XmlDocument xmlDoc = new Windows.Data.Xml.Dom.XmlDocument();
             xmlDoc.LoadXml(contents);

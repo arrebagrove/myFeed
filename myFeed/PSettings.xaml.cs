@@ -20,14 +20,16 @@ namespace myFeed
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            toggleSwitch.IsOn = App.DownloadImages;
-            switch (App.FontSize)
+            toggleSwitch.IsOn = App.config.DownloadImages;
+
+            switch (App.config.FontSize)
             {
                 case 15: FontCombo.SelectedIndex = 0; break;
                 case 17: FontCombo.SelectedIndex = 1; break;
                 case 19: FontCombo.SelectedIndex = 2; break;
             }
-            switch (App.CheckTime)
+
+            switch (App.config.CheckTime)
             {
                 case 30: NotifyCombo.SelectedIndex = 0; break;
                 case 60: NotifyCombo.SelectedIndex = 1; break;
@@ -40,12 +42,12 @@ namespace myFeed
         {
             switch (FontCombo.SelectedIndex)
             {
-                case 0: App.FontSize = 15; break;
-                case 1: App.FontSize = 17; break;
-                case 2: App.FontSize = 19; break;
+                case 0: App.config.FontSize = 15; break;
+                case 1: App.config.FontSize = 17; break;
+                case 2: App.config.FontSize = 19; break;
             }
 
-            await FileIO.WriteTextAsync(await ApplicationData.Current.LocalFolder.GetFileAsync("settings.txt"), App.FontSize.ToString());
+            SerializerExtensions.SerializeObject<App.ConfigFile>(App.config, await ApplicationData.Current.LocalFolder.GetFileAsync("config"));
         }
 
         private async void ClearButton_Click(object sender, RoutedEventArgs e)
@@ -67,22 +69,22 @@ namespace myFeed
 
         private async void toggleSwitch_Toggled(object sender, RoutedEventArgs e)
         {
-            App.DownloadImages = toggleSwitch.IsOn;
-            await FileIO.WriteTextAsync(await ApplicationData.Current.LocalFolder.GetFileAsync("loadimg.txt"), App.DownloadImages.ToString());
+            App.config.DownloadImages = toggleSwitch.IsOn;
+            SerializerExtensions.SerializeObject(App.config, await ApplicationData.Current.LocalFolder.GetFileAsync("config"));
         }
 
         private async void NotifyCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             switch (NotifyCombo.SelectedIndex)
             {
-                case 0: App.CheckTime = 30; break;
-                case 1: App.CheckTime = 60; break;
-                case 2: App.CheckTime = 180; break;
-                case 3: App.CheckTime = 0; break;
+                case 0: App.config.CheckTime = 30; break;
+                case 1: App.config.CheckTime = 60; break;
+                case 2: App.config.CheckTime = 180; break;
+                case 3: App.config.CheckTime = 0; break;
             }
 
-            await FileIO.WriteTextAsync(await ApplicationData.Current.LocalFolder.GetFileAsync("checktime"), App.CheckTime.ToString());
-            BackgroundTaskManager.RegisterNotifier(App.CheckTime);
+            SerializerExtensions.SerializeObject(App.config, await ApplicationData.Current.LocalFolder.GetFileAsync("config"));
+            BackgroundTaskManager.RegisterNotifier(App.config.CheckTime);
         }
     }
 }

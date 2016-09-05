@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
-using Windows.UI.Popups;
 using Windows.Web.Http;
 using Windows.Web.Syndication;
 

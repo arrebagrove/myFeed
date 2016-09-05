@@ -64,11 +64,6 @@
                                     <Grid Opacity="{Binding Path=opacity}" Width="70" Height="70" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <Ellipse Name="BitEll" Canvas.ZIndex="2" Width="70" Height="70" VerticalAlignment="Center" 
                                                  HorizontalAlignment="Center" >
-                                            <!--<Ellipse.Transitions>
-                                                <TransitionCollection>
-                                                    <AddDeleteThemeTransition />
-                                                </TransitionCollection>
-                                            </Ellipse.Transitions>-->
                                             <Ellipse.Fill>
                                                 <ImageBrush Stretch="UniformToFill" ImageOpened="ImageBrush_ImageOpened" Opacity="1">
                                                     <ImageBrush.ImageSource>
@@ -96,6 +91,16 @@
     </Page.Resources>
 
     <Grid>
+        
+        <Grid Name="Welcome" Visibility="Collapsed" Grid.Row="1" Canvas.ZIndex="9">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,-50,0,0">
+                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE897;" FontSize="50" TextAlignment="Center" Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}"/>
+                <TextBlock x:Uid="CatEmptyHeader" TextAlignment="Center" FontSize="24" FontWeight="SemiLight" TextWrapping="Wrap" Margin="12,6"/>
+                <TextBlock x:Uid="CatEmpty" TextWrapping="Wrap" Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}" TextAlignment="Center" FontSize="17" />
+                <Button x:Uid="NewWelcomeBtn" HorizontalAlignment="Center" Style="{ThemeResource TextBlockButtonStyle}" Name="NavigateToSourcePage" Click="NavigateToSourcePage_Click"/>
+            </StackPanel>
+        </Grid>
+
         <ProgressRing Name="ProgRing" Canvas.ZIndex="0" IsActive="True" Width="70" Height="70" Foreground="{ThemeResource SystemControlBackgroundAccentBrush}"/>
         <ScrollViewer Canvas.ZIndex="1" Name="Scroller" MaxWidth="700" HorizontalAlignment="Left" BorderThickness="0" VerticalScrollBarVisibility="Visible" >
             <StackPanel Orientation="Vertical" >

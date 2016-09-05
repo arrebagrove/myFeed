@@ -18,12 +18,13 @@
             <Grid Tapped="stack_Tapped" Holding="stack_Holding" RightTapped="stack_Holding" Height="46" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                 <FlyoutBase.AttachedFlyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem Name="DeleteItem" x:Uid="DeleteItem" Click="DeleteItem_Click"/>
+                        <MenuFlyoutItem Name="DeleteItem" x:Uid="DeleteItem" Click="DeleteItem_Click" />
+                        <MenuFlyoutItem Name="RenameCat" x:Uid="RenameCat" Click="RenameCategory_Click" />
                     </MenuFlyout>
                 </FlyoutBase.AttachedFlyout>
                 <StackPanel VerticalAlignment="Center" Margin="4,0,0,0" Orientation="Horizontal">
                     <Button Name="CategoryTitle" MaxWidth="300" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" Style="{ThemeResource TextBlockButtonStyle}" />
-                    <Button Name="CountInCategory" Content="5" Margin="-6 0 0 0" Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}" Style="{ThemeResource TextBlockButtonStyle}" />
+                    <Button Name="CountInCategory" Content="0" Margin="-6 0 0 0" Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}" Style="{ThemeResource TextBlockButtonStyle}" />
                 </StackPanel>
                 <Button FontSize="20" Name="ExpandCollapse" VerticalAlignment="Center" Style="{ThemeResource TextBlockButtonStyle}" Content="&#xE8C4;" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Right" Margin="12,0" />
             </Grid>
@@ -37,11 +38,16 @@
                     </ItemsControl.ItemContainerTransitions>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Grid VerticalAlignment="Top" Margin="12,6" HorizontalAlignment="Stretch" Height="54" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                            <Grid VerticalAlignment="Top" RightTapped="Grid_RightTapped" Holding="Grid_RightTapped" Margin="12,6" HorizontalAlignment="Stretch" Height="54" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="32" />
                                 </Grid.ColumnDefinitions>
+                                <FlyoutBase.AttachedFlyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem Name="ToggleNotifications" Click="ToggleNotifications_Click" />
+                                    </MenuFlyout>
+                                </FlyoutBase.AttachedFlyout>
                                 <StackPanel Grid.Column="0" HorizontalAlignment="Stretch">
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="{Binding Path=feedimg}" Stretch="UniformToFill" Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center" />

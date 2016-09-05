@@ -292,13 +292,13 @@
     <value>Add new category</value>
   </data>
   <data name="CategoryDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Add</value>
+    <value>Save</value>
   </data>
   <data name="CategoryDialog.SecondaryButtonText" xml:space="preserve">
     <value>Cancel</value>
   </data>
   <data name="CategoryDialog.Title" xml:space="preserve">
-    <value>Add new category</value>
+    <value>Category</value>
   </data>
   <data name="EnterALinkToRssFeed.Text" xml:space="preserve">
     <value>Enter a link to new RSS feed:</value>
@@ -338,5 +338,23 @@
   </data>
   <data name="PinButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Pin to Start</value>
+  </data>
+  <data name="CatEmpty.Text" xml:space="preserve">
+    <value>Please, add a new feed!</value>
+  </data>
+  <data name="CatEmptyHeader.Text" xml:space="preserve">
+    <value>This category is empty</value>
+  </data>
+  <data name="CategoryExists" xml:space="preserve">
+    <value>Category with this name already exists!</value>
+  </data>
+  <data name="RenameCat.Text" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="NotifyOff" xml:space="preserve">
+    <value>Disable notifications</value>
+  </data>
+  <data name="NotifyOn" xml:space="preserve">
+    <value>Enable notifications</value>
   </data>
 </root>

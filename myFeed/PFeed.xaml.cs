@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Windows.Networking.Connectivity;
 using Windows.Storage;
 using Windows.UI.Core;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -43,16 +42,8 @@ namespace myFeed
                 bool internet = connections != null && connections.GetNetworkConnectivityLevel() == NetworkConnectivityLevel.InternetAccess;
                 if (!internet) { NetworkError.Visibility = Visibility.Visible; return; }
 
-                string filecontent = await FileIO.ReadTextAsync(await ApplicationData.Current.LocalFolder.GetFileAsync("sources"));
-
-                if (string.IsNullOrWhiteSpace(filecontent))
-                {
-                    Welcome.Visibility = Visibility.Visible;
-                    return;
-                }
-
-                sourceslist = filecontent.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList();
-                sourceslist.Remove(sourceslist.Last());
+                Categories cats = await SerializerExtensions.DeSerializeObject<Categories>(
+                    await ApplicationData.Current.LocalFolder.GetFileAsync("sites"));
 
                 if (e != null)
                 {
@@ -65,21 +56,32 @@ namespace myFeed
                     }
                 }
 
-                foreach (string cat in sourceslist)
+                if (cats != null)
                 {
-                    List<string> catlist = cat.Split(';').ToList();
-                    PivotItem item = new PivotItem();
-                    item.Header = catlist.First();
-                    Frame frame = new Frame();
-                    Bag bag = new Bag();
-                    bag.list = catlist;
-                    bag.frame = ArticleFrame;
-                    frame.Navigate(typeof(ItemsControlView), bag);
-                    item.Content = frame;
-                    item.Margin = new Thickness(0, 0, 0, 0);
-                    Categories.Items.Add(item);
+                    foreach (Category cat in cats.categories)
+                    {
+                        PivotItem item = new PivotItem();
+                        item.Header = cat.title;
+                        Frame frame = new Frame();
+
+                        Bag bag = new Bag();
+                        bag.list = cat.websites;
+                        bag.frame = ArticleFrame;
+                        bag.parentframe = Frame;
+
+                        frame.Navigate(typeof(ItemsControlView), bag);
+                        item.Content = frame;
+                        item.Margin = new Thickness(0, 0, 0, 0);
+                        Categories.Items.Add(item);
+                    }
+
+                    if (cats.categories.Count == 0) Welcome.Visibility = Visibility.Visible;
                 }
-                
+                else
+                {
+                    Welcome.Visibility = Visibility.Visible;
+                }
+                                
                 await FileIO.WriteTextAsync(await ApplicationData.Current.LocalFolder.GetFileAsync("datecutoff"), DateTime.Now.ToString());
             }
             catch { }
@@ -105,12 +107,13 @@ namespace myFeed
                     target.PublishedDate = item.PublishedDate;
                     target.opacity = 0.5;
                     App.Read = App.Read + itemid + ';';
-                    await FileIO.AppendTextAsync(await ApplicationData.Current.LocalFolder.GetFileAsync("read.txt"), itemid + ';');
+                    await FileIO.AppendTextAsync(await ApplicationData.Current.LocalFolder.GetFileAsync("read.txt"), 
+                        itemid + ';');
 
                     try
                     {
                         target.content = item.Summary.Text;
-                        if (App.DownloadImages)
+                        if (App.config.DownloadImages)
                         {
                             Match match = Regex.Match(target.content, @"<img(.*?)>", RegexOptions.Singleline);
                             if (match.Success)

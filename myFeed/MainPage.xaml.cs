@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using Windows.ApplicationModel.Background;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.Storage;
 using Windows.UI.Core;
@@ -13,7 +14,7 @@ using Windows.UI.Xaml.Navigation;
 namespace myFeed
 {
     public sealed partial class MainPage : Page
-    {       
+    {
         public MainPage()
         {
             this.InitializeComponent();
@@ -40,7 +41,7 @@ namespace myFeed
         {
             this.CheckFiles();
             this.ExportFromOldSitesFormat();
-            BackgroundTaskManager.RegisterNotifier(App.CheckTime);
+            BackgroundTaskManager.RegisterNotifier(App.config.CheckTime);
             if (string.IsNullOrEmpty(e.Parameter.ToString())) MainFrame.Navigate(typeof(PFeed)); else this.FromSecondaryTile(e.Parameter);
         }
 
@@ -50,11 +51,62 @@ namespace myFeed
 
             try
             {
-                await storageFolder.GetFileAsync("sources");
+                StorageFile configfile = await storageFolder.GetFileAsync("config");
+                App.config = await SerializerExtensions.DeSerializeObject<App.ConfigFile>(configfile);
             }
             catch
             {
-                await storageFolder.CreateFileAsync("sources");
+                StorageFile configfile = await storageFolder.CreateFileAsync("config");
+                SerializerExtensions.SerializeObject(App.config, configfile);
+            }
+
+            string temp = await MigrateData("loadimg.txt");
+            if (temp != string.Empty) App.config.DownloadImages = bool.Parse(temp);
+
+            temp = await MigrateData("checktime");
+            if (temp != string.Empty) App.config.CheckTime = uint.Parse(temp);
+
+            temp = await MigrateData("settings.txt");
+            if (temp != string.Empty) App.config.FontSize = int.Parse(temp);
+
+            try
+            {
+                await storageFolder.GetFileAsync("sites");
+            }
+            catch
+            {
+                await storageFolder.CreateFileAsync("sites");
+                Categories cats = new Categories();
+                cats.categories = new List<Category>();
+                SerializerExtensions.SerializeObject(cats, await ApplicationData.Current.LocalFolder.GetFileAsync("sites"));
+            }
+
+            /// Here we do some stupid stuff in order to migrade 
+            /// from old strange data storing format.
+            temp = await MigrateData("sources");
+            if (temp != string.Empty)
+            {
+                Categories cats = new Categories();
+                cats.categories = new List<Category>();
+                List<string> sourceslist = temp.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList();
+                foreach (string str in sourceslist)
+                {
+                    Category cat = new Category();
+                    List<string> slist = str.Split(';').ToList();
+                    if (slist.Count > 0) slist.RemoveAt(slist.Count - 1);
+                    if (slist.Count > 0) cat.title = slist.First();
+                    if (slist.Count > 0) slist.Remove(slist.First());
+                    cat.websites = new List<Website>();
+                    foreach (string s in slist)
+                    {
+                        Debug.WriteLine(s);
+                        Website wb = new Website();
+                        wb.url = s;
+                        cat.websites.Add(wb);
+                    }
+                    cats.categories.Add(cat);
+                }
+                SerializerExtensions.SerializeObject(cats, await ApplicationData.Current.LocalFolder.GetFileAsync("sites"));
             }
 
             try
@@ -86,11 +138,11 @@ namespace myFeed
 
             try
             {
+                /// Here we delete info about old articles.
                 App.Read = await FileIO.ReadTextAsync(await storageFolder.GetFileAsync("read.txt"));
                 List<string> read_list = App.Read.Split(';').ToList();
                 read_list.RemoveAt(read_list.Count - 1);
-                if (read_list.Count > 90)
-                    read_list = read_list.Skip(Math.Max(0, read_list.Count() - 90)).ToList();             
+                if (read_list.Count > 90) read_list = read_list.Skip(Math.Max(0, read_list.Count() - 90)).ToList();
                 App.Read = string.Empty;
                 foreach (string item in read_list) App.Read = App.Read + item + ';';
                 await FileIO.WriteTextAsync(await storageFolder.GetFileAsync("read.txt"), App.Read);
@@ -99,47 +151,37 @@ namespace myFeed
             {
                 await storageFolder.CreateFileAsync("read.txt", CreationCollisionOption.ReplaceExisting);
             }
-
-            try
-            {
-                App.FontSize = Convert.ToInt32(await FileIO.ReadTextAsync(await storageFolder.GetFileAsync("settings.txt")));
-            }
-            catch
-            {
-                await storageFolder.CreateFileAsync("settings.txt", CreationCollisionOption.ReplaceExisting);
-            }
-
-            try
-            {
-                App.DownloadImages = Convert.ToBoolean(await FileIO.ReadTextAsync(await storageFolder.GetFileAsync("loadimg.txt")));
-            }
-            catch
-            {
-                await storageFolder.CreateFileAsync("loadimg.txt", CreationCollisionOption.ReplaceExisting);
-            }
-
-            try
-            {
-                App.CheckTime = Convert.ToUInt32(await FileIO.ReadTextAsync(await storageFolder.GetFileAsync("checktime")));
-            }
-            catch
-            {
-                await FileIO.WriteTextAsync(await storageFolder.CreateFileAsync("checktime", CreationCollisionOption.ReplaceExisting), "60");
-                App.CheckTime = 60;
-            }
         }
 
         public void FromSecondaryTile(object e)
         {
-            if (e.ToString() == "fav") MainFrame.Navigate(typeof(PFavorites)); else MainFrame.Navigate(typeof(PFavorites), e.ToString());
-            if (MainFrame.BackStackDepth > 0) if (MainFrame.BackStack[MainFrame.BackStackDepth - 1].SourcePageType == typeof(PFavorites))
-                MainFrame.BackStack.RemoveAt(MainFrame.BackStackDepth - 1);
+            if (e.ToString() == "fav") MainFrame.Navigate(typeof(PFavorites));
+            else MainFrame.Navigate(typeof(PFavorites), e.ToString());
+
+            if (MainFrame.BackStackDepth > 0)
+                if (MainFrame.BackStack[MainFrame.BackStackDepth - 1].SourcePageType == typeof(PFavorites))
+                    MainFrame.BackStack.RemoveAt(MainFrame.BackStackDepth - 1);
         }
 
         public void FindNotification(string id)
         {
             MainFrame.Navigate(typeof(PFeed), id);
             MainFrame.BackStack.RemoveAt(MainFrame.BackStackDepth - 1);
+        }
+
+        private async Task<string> MigrateData(string filename)
+        {
+            try
+            {
+                StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync(filename);
+                string setting = await FileIO.ReadTextAsync(file);
+                await file.DeleteAsync();
+                return setting;
+            }
+            catch
+            {
+                return string.Empty;
+            }
         }
 
         private async void ExportFromOldSitesFormat()

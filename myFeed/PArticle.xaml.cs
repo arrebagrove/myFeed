@@ -35,8 +35,8 @@ namespace myFeed
             Date.Text = Value.PublishedDate.DateTime.ToString();
             Link = Value.link;
 
-            ContentRTB.FontSize = App.FontSize;
-            ContentRTB.LineHeight = App.FontSize * 1.5;
+            ContentRTB.FontSize = App.config.FontSize;
+            ContentRTB.LineHeight = App.config.FontSize * 1.5;
 
             string cleancontent = Regex.Replace(Value.content, @"(&.*?;)", " ");
             cleancontent = Regex.Replace(cleancontent, @"\r\n?|\n", "");
@@ -79,7 +79,8 @@ namespace myFeed
 
             if (!favcache.Contains(Value.link))
             {
-                SerializerExtensions.SerializeObject<PFeedItem>(Value, filecount.ToString());
+                StorageFolder storageFolder = await ApplicationData.Current.LocalFolder.GetFolderAsync("favorites");
+                SerializerExtensions.SerializeObject(Value, await storageFolder.CreateFileAsync(filecount.ToString()));
                 await FileIO.AppendTextAsync(cache, Value.link + ";");
             }
         }

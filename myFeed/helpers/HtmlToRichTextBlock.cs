@@ -89,7 +89,7 @@ namespace myFeed
                 case "h4":
                 case "h5":
                 case "h6":
-                    return GenerateH(node, App.FontSize * 1.3);
+                    return GenerateH(node, App.config.FontSize * 1.3);
                 default:
                     return GenerateSpan(node);
             }
@@ -184,7 +184,7 @@ namespace myFeed
         private static Inline GenerateImage(HtmlNode node)
         {
             Span span = new Span();
-            if (!App.DownloadImages) return span;
+            if (!App.config.DownloadImages) return span;
             try
             {
                 InlineUIContainer iui = new InlineUIContainer();
