@@ -47,7 +47,8 @@ namespace myFeed
                 case 2: App.config.FontSize = 19; break;
             }
 
-            SerializerExtensions.SerializeObject<App.ConfigFile>(App.config, await ApplicationData.Current.LocalFolder.GetFileAsync("config"));
+            SerializerExtensions.SerializeObject(App.config, 
+                await ApplicationData.Current.LocalFolder.GetFileAsync("config"));
         }
 
         private async void ClearButton_Click(object sender, RoutedEventArgs e)
@@ -62,7 +63,8 @@ namespace myFeed
             {
                 IReadOnlyList<StorageFile> files = await ApplicationData.Current.LocalFolder.GetFilesAsync();
                 foreach (StorageFile file in files) await file.DeleteAsync(StorageDeleteOption.Default);
-                await (await ApplicationData.Current.LocalFolder.GetFolderAsync("favorites")).DeleteAsync(StorageDeleteOption.Default);
+                await (await ApplicationData.Current.LocalFolder.GetFolderAsync("favorites")).DeleteAsync(
+                    StorageDeleteOption.Default);
                 Application.Current.Exit();
             }
         }

@@ -75,7 +75,8 @@ namespace myFeed
             }
 
             cats.categories.Add(cat);          
-            SerializerExtensions.SerializeObject(cats, await ApplicationData.Current.LocalFolder.GetFileAsync("sites"));
+            SerializerExtensions.SerializeObject(cats, 
+                await ApplicationData.Current.LocalFolder.GetFileAsync("sites"));
 
             Frame frame = new Frame();
             frame.Navigate(typeof(SourcesView), cat);

@@ -37,15 +37,16 @@ namespace myFeed
             }
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            this.CheckFiles();
+            await CheckFiles();
             this.ExportFromOldSitesFormat();
             BackgroundTaskManager.RegisterNotifier(App.config.CheckTime);
-            if (string.IsNullOrEmpty(e.Parameter.ToString())) MainFrame.Navigate(typeof(PFeed)); else this.FromSecondaryTile(e.Parameter);
+            if (string.IsNullOrEmpty(e.Parameter.ToString())) MainFrame.Navigate(typeof(PFeed));
+            else this.FromSecondaryTile(e.Parameter);
         }
 
-        private async void CheckFiles()
+        private async Task CheckFiles()
         {
             StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
 
@@ -86,27 +87,33 @@ namespace myFeed
             temp = await MigrateData("sources");
             if (temp != string.Empty)
             {
-                Categories cats = new Categories();
-                cats.categories = new List<Category>();
-                List<string> sourceslist = temp.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList();
-                foreach (string str in sourceslist)
+                try
                 {
-                    Category cat = new Category();
-                    List<string> slist = str.Split(';').ToList();
-                    if (slist.Count > 0) slist.RemoveAt(slist.Count - 1);
-                    if (slist.Count > 0) cat.title = slist.First();
-                    if (slist.Count > 0) slist.Remove(slist.First());
-                    cat.websites = new List<Website>();
-                    foreach (string s in slist)
+                    Categories cats = new Categories();
+                    cats.categories = new List<Category>();
+                    List<string> sourceslist = temp.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList();
+                    if (sourceslist.Count > 0) sourceslist.Remove(sourceslist.Last());
+                    foreach (string str in sourceslist)
                     {
-                        Debug.WriteLine(s);
-                        Website wb = new Website();
-                        wb.url = s;
-                        cat.websites.Add(wb);
+                        Category cat = new Category();
+                        List<string> slist = str.Split(';').ToList();
+                        if (slist.Count > 0) slist.RemoveAt(slist.Count - 1);
+                        if (slist.Count > 0) cat.title = slist.First();
+                        if (slist.Count > 0) slist.Remove(slist.First());
+                        cat.websites = new List<Website>();
+                        foreach (string s in slist)
+                        {
+                            Debug.WriteLine(s);
+                            Website wb = new Website();
+                            wb.url = s;
+                            cat.websites.Add(wb);
+                        }
+                        cats.categories.Add(cat);
                     }
-                    cats.categories.Add(cat);
+                    SerializerExtensions.SerializeObject(cats, await ApplicationData.Current.LocalFolder.GetFileAsync("sites"));
+
                 }
-                SerializerExtensions.SerializeObject(cats, await ApplicationData.Current.LocalFolder.GetFileAsync("sites"));
+                catch { }
             }
 
             try

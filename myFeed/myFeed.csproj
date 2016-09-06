@@ -97,8 +97,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <PRIResource Include="lang\ru-RU\Resources.resw" />
-    <PRIResource Include="lang\en-US\Resources.resw" />
+    <PRIResource Include="lang\ru\Resources.resw" />
+    <PRIResource Include="lang\en\Resources.resw" />
     <None Include="myFeed_StoreKey.pfx" />
     <None Include="project.json" />
   </ItemGroup>

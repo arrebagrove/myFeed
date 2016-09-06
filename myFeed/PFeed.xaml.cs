@@ -39,7 +39,8 @@ namespace myFeed
             try
             {
                 ConnectionProfile connections = NetworkInformation.GetInternetConnectionProfile();
-                bool internet = connections != null && connections.GetNetworkConnectivityLevel() == NetworkConnectivityLevel.InternetAccess;
+                bool internet = connections != null && connections.GetNetworkConnectivityLevel() == 
+                    NetworkConnectivityLevel.InternetAccess;
                 if (!internet) { NetworkError.Visibility = Visibility.Visible; return; }
 
                 Categories cats = await SerializerExtensions.DeSerializeObject<Categories>(
@@ -82,7 +83,8 @@ namespace myFeed
                     Welcome.Visibility = Visibility.Visible;
                 }
                                 
-                await FileIO.WriteTextAsync(await ApplicationData.Current.LocalFolder.GetFileAsync("datecutoff"), DateTime.Now.ToString());
+                await FileIO.WriteTextAsync(await ApplicationData.Current.LocalFolder.GetFileAsync("datecutoff"), 
+                    DateTime.Now.ToString());
             }
             catch { }
         }

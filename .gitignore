@@ -25,7 +25,12 @@ myFeed/AppPackages/
 myFeed/Assets
 myFeed/Properties
 myFeed.FeedUpdater/Properties
+myFeed.FeedUpdater/obj
+myFeed.FeedUpdater/bin
 myFeed/myFeed_StoreKey.pfx
+myFeed/bin
+myFeed/obj
+myFeed/BundleArtifacts
 .vs/
 
 # OSX
@@ -64,3 +69,4 @@ Temporary Items
 *.json
 *.pfx
 myFeed/Package.StoreAssociation.xml
+myFeed/_pkginfo.txt
