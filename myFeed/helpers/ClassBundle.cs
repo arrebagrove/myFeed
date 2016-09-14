@@ -8,6 +8,16 @@ using Windows.UI.Xaml.Controls;
 
 namespace myFeed
 {
+    public class ListFeed
+    {
+        public string feedtitle { get; set; }
+        public string feedsubtitle { get; set; }
+        public string feedid { get; set; }
+        public string feedimg { get; set; }
+        [XmlIgnore]
+        public string feedlink { get; set; } = string.Empty;
+    }
+
     public class Bag
     {
         public string notification;

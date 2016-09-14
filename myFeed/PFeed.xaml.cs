@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Networking.Connectivity;
 using Windows.Storage;
 using Windows.UI.Core;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -22,7 +24,6 @@ namespace myFeed
         {
             this.InitializeComponent();
             App.ChosenIndex = 1;
-            ArticleFrame.Navigate(typeof(BlankPage));
             SystemNavigationManager.GetForCurrentView().BackRequested += (s, a) =>
             {
                 if (ArticleFrame.CanGoBack)
@@ -50,10 +51,12 @@ namespace myFeed
                 {
                     if (e.Parameter != null)
                     {
+                        NotificationStatus.Visibility = Visibility.Visible;
                         NotificationStatus.IsActive = true;
                         string[] data = e.Parameter.ToString().Split(';');
                         await SearchArticleFromNotification(data[0], data[1]);
                         NotificationStatus.IsActive = false;
+                        NotificationStatus.Visibility = Visibility.Collapsed;
                     }
                 }
 
@@ -77,6 +80,7 @@ namespace myFeed
                     }
 
                     if (cats.categories.Count == 0) Welcome.Visibility = Visibility.Visible;
+                    else ArticleFrame.Navigate(typeof(BlankPage));
                 }
                 else
                 {
@@ -94,48 +98,55 @@ namespace myFeed
             SyndicationFeed feed = await SyndicationConverter.RetrieveFeedAsync(website);
             foreach (SyndicationItem item in feed.Items)
             {
-                string itemid = (int)item.Title.Text.First()
-                    + item.PublishedDate.Second.ToString()
-                    + item.PublishedDate.Minute.ToString()
-                    + item.PublishedDate.Hour.ToString()
-                    + item.PublishedDate.Day.ToString();
-
-                if (theid == itemid)
+                try
                 {
-                    PFeedItem target = new PFeedItem();
-                    target.title = Regex.Replace(item.Title.Text, @"(&.*?;)", " ");
-                    target.link = item.Links.FirstOrDefault().Uri.ToString();
-                    target.feed = feed.Title.Text;
-                    target.PublishedDate = item.PublishedDate;
-                    target.opacity = 0.5;
-                    App.Read = App.Read + itemid + ';';
-                    await FileIO.AppendTextAsync(await ApplicationData.Current.LocalFolder.GetFileAsync("read.txt"), 
-                        itemid + ';');
+                    string itemid = (int)item.Title.Text.First()
+                        + item.PublishedDate.Second.ToString()
+                        + item.PublishedDate.Minute.ToString()
+                        + item.PublishedDate.Hour.ToString()
+                        + item.PublishedDate.Day.ToString();
 
-                    try
+                    if (theid == itemid)
                     {
-                        target.content = item.Summary.Text;
-                        if (App.config.DownloadImages)
+                        PFeedItem target = new PFeedItem();
+                        target.title = Regex.Replace(item.Title.Text, @"(&.*?;)", " ");
+                        target.link = item.Links.FirstOrDefault().Uri.ToString();
+                        target.feed = feed.Title.Text;
+                        target.PublishedDate = item.PublishedDate;
+                        target.opacity = 0.5;
+                        App.Read = App.Read + itemid + ';';
+                        await FileIO.AppendTextAsync(await ApplicationData.Current.LocalFolder.GetFileAsync("read.txt"),
+                            itemid + ';');
+
+                        try
                         {
-                            Match match = Regex.Match(target.content, @"<img(.*?)>", RegexOptions.Singleline);
-                            if (match.Success)
+                            target.content = item.Summary.Text;
+                            if (App.config.DownloadImages)
                             {
-                                string val = match.Groups[1].Value;
-                                Match match2 = Regex.Match(val, @"src=\""(.*?)\""", RegexOptions.Singleline);
-                                if (match2.Success)
+                                Match match = Regex.Match(target.content, @"<img(.*?)>", RegexOptions.Singleline);
+                                if (match.Success)
                                 {
-                                    target.image = match2.Groups[1].Value;
-                                    target.iconopacity = 0;
+                                    string val = match.Groups[1].Value;
+                                    Match match2 = Regex.Match(val, @"src=\""(.*?)\""", RegexOptions.Singleline);
+                                    if (match2.Success)
+                                    {
+                                        target.image = match2.Groups[1].Value;
+                                        target.iconopacity = 0;
+                                    }
                                 }
                             }
                         }
-                    }
-                    catch
-                    {
-                        target.content = string.Empty;
-                    }
+                        catch
+                        {
+                            target.content = string.Empty;
+                        }
 
-                    ArticleFrame.Navigate(typeof(PArticle), target);
+                        ArticleFrame.Navigate(typeof(PArticle), target);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.Write(ex.ToString());
                 }
             }
         }

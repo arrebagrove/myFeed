@@ -357,4 +357,70 @@
   <data name="NotifyOn" xml:space="preserve">
     <value>Enable notifications</value>
   </data>
+  <data name="CopyLink.Text" xml:space="preserve">
+    <value>Copy link</value>
+  </data>
+  <data name="AddFeedFromSearch.Content" xml:space="preserve">
+    <value>Add RSS feed from search</value>
+  </data>
+  <data name="DeleteSource.Text" xml:space="preserve">
+    <value>Delete this feed</value>
+  </data>
+  <data name="FindAll.Content" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="SearchDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="SearchDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="SearchDialog.Title" xml:space="preserve">
+    <value>Choose a category</value>
+  </data>
+  <data name="SearchDialogSelect.Text" xml:space="preserve">
+    <value>Please, choose a category, where this RSS feed should be placed:</value>
+  </data>
+  <data name="SearchHeading.Text" xml:space="preserve">
+    <value>SEARCH RSS FEEDS</value>
+  </data>
+  <data name="SearchHelpSubtitle.Text" xml:space="preserve">
+    <value>Enter the search query into the text field, for example "News" or "Politics", and press "Search"!</value>
+  </data>
+  <data name="SearchHelpTitle.Text" xml:space="preserve">
+    <value>Here you can find RSS feeds you are interested in.</value>
+  </data>
+  <data name="SearchInput.PlaceholderText" xml:space="preserve">
+    <value>Enter the search query...</value>
+  </data>
+  <data name="SearchItemAdd.Text" xml:space="preserve">
+    <value>Add to myFeed</value>
+  </data>
+  <data name="SearchItemCopy.Text" xml:space="preserve">
+    <value>Copy link to this RSS feed</value>
+  </data>
+  <data name="SearchItemOpen.Text" xml:space="preserve">
+    <value>Open in a web browser</value>
+  </data>
+  <data name="SearchAddSuccess" xml:space="preserve">
+    <value>This RSS channel was successfully added!</value>
+  </data>
+  <data name="SearchDialogCreateNew.Text" xml:space="preserve">
+    <value>Or you can create a new category. To do this, enter the new category's name into the text field below. If you don't want to create a new category, simply leave this field empty.</value>
+  </data>
+  <data name="SearchAddMessage" xml:space="preserve">
+    <value>Feed "{0}" was successfully added to "{1}" category!</value>
+  </data>
+  <data name="SearchFailedSubtitle.Text" xml:space="preserve">
+    <value>Check the spelling or internet connection, then try again.</value>
+  </data>
+  <data name="SearchFailedTitle.Text" xml:space="preserve">
+    <value>We tried, but found nothing!</value>
+  </data>
+  <data name="SearchCreateNewCatTextFL" xml:space="preserve">
+    <value>Enter the new category's name into the text field below:</value>
+  </data>
+  <data name="SearchCreateNewCatTitleFL" xml:space="preserve">
+    <value>Create new category</value>
+  </data>
 </root>

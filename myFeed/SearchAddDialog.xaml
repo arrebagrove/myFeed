@@ -1,0 +1,19 @@
+﻿<ContentDialog
+    x:Class="myFeed.SearchAddDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:myFeed"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    x:Uid ="SearchDialog">
+
+    <Grid Margin="0 12" HorizontalAlignment="Stretch">
+        <StackPanel>
+            <TextBlock x:Uid="SearchDialogSelect" Name="CategoriesBoxTitle" TextWrapping="Wrap" />
+            <ComboBox Margin="0 18 0 18" Width="auto" Name="CategoriesBox" MinWidth="200" />
+            <TextBlock x:Uid="SearchDialogCreateNew" Name="CategoriesTextBoxTitle"  TextWrapping="Wrap" />
+            <TextBox Margin="0 18 0 -12" Width="auto" Name="CategoriesTextBox" MinWidth="200" HorizontalAlignment="Left" />
+        </StackPanel>
+    </Grid>
+</ContentDialog>

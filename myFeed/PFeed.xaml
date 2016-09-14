@@ -76,14 +76,14 @@
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,-50,0,0">
                 <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xEB5E;" FontSize="50" TextAlignment="Center" Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}"/>
                 <TextBlock x:Uid="NoInternet"  TextAlignment="Center" FontSize="24" FontWeight="SemiLight" TextWrapping="Wrap" Margin="36,6"/>
-                <TextBlock x:Uid="NoInternetFixed" Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}" TextAlignment="Center" FontSize="17" />
+                <TextBlock x:Uid="NoInternetFixed" TextWrapping="Wrap" Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}" TextAlignment="Center" FontSize="17" />
                 <Button Style="{ThemeResource TextBlockButtonStyle}" x:Uid="NoInternetUpd" HorizontalAlignment="Center" Click="UpdBtn_Click"/>
             </StackPanel>
         </Grid>
 
         <Grid Name="CategoriesHead" Canvas.ZIndex="0" Background="{ThemeResource SystemChromeLowColor}" Grid.Row="1" Height="48" VerticalAlignment="Top"/>
-        <Grid Name="NotifyLoad" Grid.Row="1" HorizontalAlignment="Center" Canvas.ZIndex="1">
-            <ProgressRing Name="NotificationStatus" Grid.Row="1" Width="70" Height="70" IsActive="False" 
+        <Grid Name="NotifyLoad" Grid.Row="1" HorizontalAlignment="Center" Canvas.ZIndex="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <ProgressRing Name="NotificationStatus" Visibility="Collapsed" Grid.Row="1" Width="70" Height="70" IsActive="False" 
                           VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Grid>
         <Pivot Canvas.ZIndex="1" HorizontalAlignment="Left" Grid.Row="1" Name="Categories">

@@ -14,7 +14,7 @@ namespace myFeed
         public PSettings()
         {
             this.InitializeComponent();
-            App.ChosenIndex = 4;
+            App.ChosenIndex = 5;
             App.CanNavigate = true;
         }
 

@@ -65,9 +65,9 @@
                                         <Ellipse Name="BitEll" Canvas.ZIndex="2" Width="70" Height="70" VerticalAlignment="Center" 
                                                  HorizontalAlignment="Center" >
                                             <Ellipse.Fill>
-                                                <ImageBrush Stretch="UniformToFill" ImageOpened="ImageBrush_ImageOpened" Opacity="1">
+                                                <ImageBrush Stretch="UniformToFill" ImageOpened="ImageBrush_ImageOpened" Opacity="0">
                                                     <ImageBrush.ImageSource>
-                                                        <BitmapImage UriSource="{Binding Path=image}" DecodePixelHeight="60" DecodePixelType="Logical" />
+                                                        <BitmapImage UriSource="{Binding Path=image}" CreateOptions="IgnoreImageCache" DecodePixelHeight="60" DecodePixelType="Logical" />
                                                     </ImageBrush.ImageSource>
                                                 </ImageBrush>
                                             </Ellipse.Fill>

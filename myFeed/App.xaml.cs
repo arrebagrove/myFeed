@@ -82,7 +82,7 @@ namespace myFeed {
         /// <summary>
         /// Вызывается при переходе в приложение из Toast уведомлений
         /// </summary>
-        /// <param name="args">Аргументы Toast уведомления</param>
+        /// <param name="e">Аргументы Toast уведомления</param>
         protected override void OnActivated(IActivatedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;
@@ -102,14 +102,13 @@ namespace myFeed {
 
             if (rootFrame.Content == null)
             {
-                rootFrame.Navigate(typeof(MainPage), string.Empty);
+                rootFrame.Navigate(typeof(MainPage), "N");
             }
             
             // Обработчик клика на уведомления.
             if (e.Kind == ActivationKind.ToastNotification)
             {
                 ToastNotificationActivatedEventArgs toastArgs = e as ToastNotificationActivatedEventArgs;
-
                 if (rootFrame.Content is MainPage)
                 {
                     (rootFrame.Content as MainPage).FindNotification(toastArgs.Argument);

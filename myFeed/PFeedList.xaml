@@ -56,7 +56,8 @@
                     <Grid Name="Wider" HorizontalAlignment="Stretch">
                         <StackPanel>
                             <ItemsControl Name="SourcesList"/>
-                            <Button Visibility="Collapsed" Background="{ThemeResource SystemChromeLowColor}" Name="CategoryAdd" Click="CategoryAdd_Click" x:Uid="AddNewCategory" HorizontalAlignment="Stretch" Padding="12" Margin="12"/>
+                            <Button Visibility="Visible" Background="{ThemeResource SystemChromeLowColor}" Name="CategoryAdd" Click="CategoryAdd_Click" x:Uid="AddNewCategory" HorizontalAlignment="Stretch" Padding="12" Margin="12"/>
+                            <Button Style="{ThemeResource TextBlockButtonStyle}" x:Uid="AddFeedFromSearch" HorizontalAlignment="Center" Click="Search_Click" />
                         </StackPanel>
                     </Grid>
                 </ScrollViewer>

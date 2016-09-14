@@ -357,4 +357,70 @@
   <data name="NotifyOn" xml:space="preserve">
     <value>Включить уведомления</value>
   </data>
+  <data name="CopyLink.Text" xml:space="preserve">
+    <value>Скопировать ссылку</value>
+  </data>
+  <data name="AddFeedFromSearch.Content" xml:space="preserve">
+    <value>Добавить RSS ленту из поиска</value>
+  </data>
+  <data name="DeleteSource.Text" xml:space="preserve">
+    <value>Удалить источник</value>
+  </data>
+  <data name="FindAll.Content" xml:space="preserve">
+    <value>Найти</value>
+  </data>
+  <data name="SearchDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="SearchDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="SearchDialog.Title" xml:space="preserve">
+    <value>Выберите категорию</value>
+  </data>
+  <data name="SearchDialogSelect.Text" xml:space="preserve">
+    <value>Пожалуйста, выберите категорию, в которую следует добавить новостную ленту этого сайта:</value>
+  </data>
+  <data name="SearchHeading.Text" xml:space="preserve">
+    <value>ПОИСК RSS ЛЕНТ</value>
+  </data>
+  <data name="SearchHelpSubtitle.Text" xml:space="preserve">
+    <value>Введите в текстовое поле запрос, например "Новости" или "Политика", и нажмите "Найти"!</value>
+  </data>
+  <data name="SearchHelpTitle.Text" xml:space="preserve">
+    <value>Здесь можно найти интересующие Вас источники новостей.</value>
+  </data>
+  <data name="SearchInput.PlaceholderText" xml:space="preserve">
+    <value>Введите запрос...</value>
+  </data>
+  <data name="SearchItemAdd.Text" xml:space="preserve">
+    <value>Добавить источник в ленту</value>
+  </data>
+  <data name="SearchItemCopy.Text" xml:space="preserve">
+    <value>Скопировать ссылку на RSS</value>
+  </data>
+  <data name="SearchItemOpen.Text" xml:space="preserve">
+    <value>Открыть сайт в браузере</value>
+  </data>
+  <data name="SearchAddSuccess" xml:space="preserve">
+    <value>RSS лента была успешно добавлена!</value>
+  </data>
+  <data name="SearchDialogCreateNew.Text" xml:space="preserve">
+    <value>Или создайте новую категорию. Для этого необходимо указать название новой категории в поле ниже. Оставьте его пустым, чтобы добавить источник в выбранную выше категорию.</value>
+  </data>
+  <data name="SearchAddMessage" xml:space="preserve">
+    <value>Канал "{0}" был успешно добавлен в категорию "{1}"!</value>
+  </data>
+  <data name="SearchFailedSubtitle.Text" xml:space="preserve">
+    <value>Проверьте соединение с интернетом и правильность ввода запроса.</value>
+  </data>
+  <data name="SearchFailedTitle.Text" xml:space="preserve">
+    <value>По этому запросу ничего найти не удалось!</value>
+  </data>
+  <data name="SearchCreateNewCatTextFL" xml:space="preserve">
+    <value>Введите название новой категории в поле ниже:</value>
+  </data>
+  <data name="SearchCreateNewCatTitleFL" xml:space="preserve">
+    <value>Создайте новую категорию</value>
+  </data>
 </root>

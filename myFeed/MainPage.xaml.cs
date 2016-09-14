@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.Storage;
 using Windows.UI.Core;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -18,7 +19,16 @@ namespace myFeed
         public MainPage()
         {
             this.InitializeComponent();
-            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetPreferredMinSize(new Windows.Foundation.Size(300, 300));        
+            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetPreferredMinSize(new Windows.Foundation.Size(300, 300));
+
+            if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            {
+                var statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
+                SolidColorBrush statuscolor = NavBackground.Background as SolidColorBrush;
+                statusBar.BackgroundColor = statuscolor.Color;
+                statusBar.BackgroundOpacity = 1;
+            }
+
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
             SystemNavigationManager.GetForCurrentView().BackRequested += (s, a) =>
             {
@@ -28,22 +38,27 @@ namespace myFeed
                     a.Handled = true;
                 }                   
             };
-            if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
-            {
-                var statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
-                SolidColorBrush statuscolor = NavBackground.Background as SolidColorBrush;
-                statusBar.BackgroundColor = statuscolor.Color;
-                statusBar.BackgroundOpacity = 1;
-            }
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             await CheckFiles();
-            this.ExportFromOldSitesFormat();
             BackgroundTaskManager.RegisterNotifier(App.config.CheckTime);
-            if (string.IsNullOrEmpty(e.Parameter.ToString())) MainFrame.Navigate(typeof(PFeed));
-            else this.FromSecondaryTile(e.Parameter);
+            if (string.IsNullOrEmpty(e.Parameter.ToString()))
+            {
+                if (e.Parameter.ToString() == "N") return;
+                MainFrame.Navigate(typeof(PFeed));
+            }
+            else
+            {
+                if (e.Parameter.ToString() == "N") return;
+                FromSecondaryTile(e.Parameter);
+            }
+        }
+
+        public void FindNotification(string id)
+        {
+            MainFrame.Navigate(typeof(PFeed), id);
         }
 
         private async Task CheckFiles()
@@ -158,6 +173,8 @@ namespace myFeed
             {
                 await storageFolder.CreateFileAsync("read.txt", CreationCollisionOption.ReplaceExisting);
             }
+
+            MainLoading.IsActive = false;
         }
 
         public void FromSecondaryTile(object e)
@@ -168,12 +185,6 @@ namespace myFeed
             if (MainFrame.BackStackDepth > 0)
                 if (MainFrame.BackStack[MainFrame.BackStackDepth - 1].SourcePageType == typeof(PFavorites))
                     MainFrame.BackStack.RemoveAt(MainFrame.BackStackDepth - 1);
-        }
-
-        public void FindNotification(string id)
-        {
-            MainFrame.Navigate(typeof(PFeed), id);
-            MainFrame.BackStack.RemoveAt(MainFrame.BackStackDepth - 1);
         }
 
         private async Task<string> MigrateData(string filename)
@@ -188,22 +199,6 @@ namespace myFeed
             catch
             {
                 return string.Empty;
-            }
-        }
-
-        private async void ExportFromOldSitesFormat()
-        {
-            try
-            {
-                StorageFile sitestxt = await ApplicationData.Current.LocalFolder.GetFileAsync("sites.txt");
-                string content = (new ResourceLoader()).GetString("News") + ';' 
-                    + await FileIO.ReadTextAsync(sitestxt) + Environment.NewLine;
-                await FileIO.WriteTextAsync(await ApplicationData.Current.LocalFolder.GetFileAsync("sources"), content);
-                await sitestxt.DeleteAsync();
-            }
-            catch
-            {
-                return;
             }
         }
 
@@ -227,6 +222,10 @@ namespace myFeed
                     MainFrame.Navigate(typeof(PFeedList));
                     break;
                 case 4:
+                    MySplitView.IsPaneOpen = false;
+                    MainFrame.Navigate(typeof(Search));
+                    break;
+                case 5:
                     MySplitView.IsPaneOpen = false;
                     MainFrame.Navigate(typeof(PSettings));
                     break;

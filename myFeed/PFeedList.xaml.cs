@@ -22,7 +22,7 @@ namespace myFeed
         {
             Categories cats = await SerializerExtensions.DeSerializeObject<Categories>(
                 await ApplicationData.Current.LocalFolder.GetFileAsync("sites"));
-
+            
             if (cats != null)
             {
                 foreach (Category cat in cats.categories)
@@ -81,6 +81,11 @@ namespace myFeed
             Frame frame = new Frame();
             frame.Navigate(typeof(SourcesView), cat);
             SourcesList.Items.Add(frame);
+        }
+
+        private void Search_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(Search));
         }
     }
 }

@@ -70,3 +70,4 @@ Temporary Items
 *.pfx
 myFeed/Package.StoreAssociation.xml
 myFeed/_pkginfo.txt
+myFeed.VC.db

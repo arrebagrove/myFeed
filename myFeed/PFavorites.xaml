@@ -40,6 +40,11 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Grid Name="Grid" HorizontalAlignment="Stretch" Padding="12,6,12,12" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                            <Grid.Transitions>
+                                <TransitionCollection>
+                                    <EntranceThemeTransition FromVerticalOffset="0" FromHorizontalOffset="10" />
+                                </TransitionCollection>
+                            </Grid.Transitions>
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
                                     <VisualStateGroup.Transitions>
@@ -91,7 +96,7 @@
                                                 </TransitionCollection>
                                             </Ellipse.Transitions>
                                             <Ellipse.Fill>
-                                                <ImageBrush Stretch="UniformToFill" ImageOpened="ImageBrush_ImageOpened">
+                                                <ImageBrush Stretch="UniformToFill" ImageOpened="ImageBrush_ImageOpened" Opacity="0">
                                                     <ImageBrush.ImageSource>
                                                         <BitmapImage UriSource="{Binding Path=image}" DecodePixelHeight="60" DecodePixelType="Logical" CreateOptions="IgnoreImageCache" />
                                                     </ImageBrush.ImageSource>

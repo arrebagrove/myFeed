@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using Windows.Web.Syndication;
 
@@ -83,14 +85,13 @@ namespace myFeed
                 foreach (SyndicationItem item in feed.Items)
                 {
                     PFeedItem target = new PFeedItem();
-                    target.title = Regex.Replace(item.Title.Text, @"(&.*?;)", " ");
-                    target.link = item.Links.FirstOrDefault().Uri.ToString();
-                    target.feed = feed.Title.Text;
-                    target.PublishedDate = item.PublishedDate;
-
                     try
                     {
+                        target.title = Regex.Replace(item.Title.Text, @"(&.*?;)", " ");
+                        target.feed = feed.Title.Text;
+                        target.PublishedDate = item.PublishedDate;
                         target.content = item.Summary.Text;
+                        target.link = item.Links.FirstOrDefault().Uri.ToString();
                         if (App.config.DownloadImages)
                         {
                             Match match = Regex.Match(target.content, @"<img(.*?)>", RegexOptions.Singleline);
@@ -109,6 +110,7 @@ namespace myFeed
                     catch
                     {
                         target.content = string.Empty;
+                        target.link = string.Empty;
                     }
 
                     fullfeed.Add(target);
@@ -137,7 +139,7 @@ namespace myFeed
             {
                 From = 0,
                 To = 1,
-                Duration = TimeSpan.FromSeconds(0.2),
+                Duration = TimeSpan.FromSeconds(0.3),
                 EnableDependentAnimation = true
             };
             Storyboard.SetTarget(fade, img);

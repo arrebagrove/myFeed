@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources;
 using Windows.Storage;
 using Windows.UI.Popups;
@@ -21,33 +22,45 @@ namespace myFeed
             InitializeComponent();
         }
 
-        public class ListFeed
-        {
-            public string feedtitle { get; set; }
-            public string feedsubtitle { get; set; }
-            public string feedid { get; set; }
-            public string feedimg { get; set; }
-        }
-
         Category cat = new Category();
-        string website_buffer = string.Empty;
+        private string website_buffer = string.Empty;
+        private bool loaded = false;
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             cat = e.Parameter as Category;
             CategoryTitle.Content = cat.title;
             CountInCategory.Content = cat.websites.Count;
-            SyndicationClient client = new SyndicationClient();
+        }
 
-            foreach (Website ws in cat.websites)
+        private async void stack_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            if (MainBorder.Height == 46)
             {
-                ListFeed feeditem = await GetItem(client, ws.url);
-                Display.Items.Add(feeditem);
-            }
+                // Expand
+                ExpandCollapse.Content = "";
+                ExpandItems(46, (cat.websites.Count * 66) + 46 + 80);
 
-            LoadStatus.IsIndeterminate = false;
-            LoadStatus.Opacity = 0;
-        }       
+                if (!loaded)
+                {
+                    SyndicationClient client = new SyndicationClient();
+                    foreach (Website ws in cat.websites)
+                    {
+                        ListFeed feeditem = await GetItem(client, ws.url);
+                        Display.Items.Add(feeditem);
+                    }
+                    LoadStatus.IsIndeterminate = false;
+                    LoadStatus.Opacity = 0;
+                    loaded = true;
+                }
+            }
+            else
+            {
+                // Collapse
+                ExpandCollapse.Content = "";
+                ExpandItems((cat.websites.Count * 66) + 46 + 80, 46);
+            }
+        }
 
         private async void AddButton_Click(object sender, RoutedEventArgs e)
         {
@@ -93,6 +106,9 @@ namespace myFeed
 
         private async void Delete_Button_Click(object sender, RoutedEventArgs e)
         {
+            ListFeed p = (ListFeed)((FrameworkElement)sender).DataContext;
+            string link = p.feedid;
+
             ResourceLoader rl = new ResourceLoader();
             var dialog = new MessageDialog(rl.GetString("DeleteAction"));
             dialog.Title = rl.GetString("DeleteElement");
@@ -103,10 +119,6 @@ namespace myFeed
             {
                 Categories cats = await SerializerExtensions.DeSerializeObject<Categories>(
                     await ApplicationData.Current.LocalFolder.GetFileAsync("sites"));
-
-                Button stack = (Button)sender;
-                ListFeed p = (ListFeed)stack.DataContext;
-                string link = p.feedid;
 
                 foreach (Website wb in cat.websites)
                 {
@@ -170,20 +182,6 @@ namespace myFeed
                 list.feedsubtitle = rl.GetString("CanNotGetData");
                 list.feedid = website;
                 return list;
-            }
-        }
-
-        private void stack_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            if (MainBorder.Height == 46)
-            {
-                ExpandCollapse.Content = "";
-                ExpandItems(46, (cat.websites.Count * 66) + 46 + 80); 
-            }
-            else
-            {
-                ExpandCollapse.Content = "";
-                ExpandItems((cat.websites.Count * 66) + 46 + 80, 46);
             }
         }
 
@@ -315,6 +313,33 @@ namespace myFeed
 
             SerializerExtensions.SerializeObject(cats,
                 await ApplicationData.Current.LocalFolder.GetFileAsync("sites"));
+        }
+
+        private void CopyLink_Click(object sender, RoutedEventArgs e)
+        {
+            ListFeed feeditem = (ListFeed)((FrameworkElement)sender).DataContext;
+            DataPackage dataPackage = new DataPackage();
+            dataPackage.SetText(feeditem.feedid);
+            Clipboard.SetContent(dataPackage);
+        }
+        
+        private void Image_ImageOpened(object sender, RoutedEventArgs e)
+        {
+            Image img = sender as Image;
+            img.Opacity = 0;
+            if (img.Source.ToString() == string.Empty) return;
+            DoubleAnimation fade = new DoubleAnimation()
+            {
+                From = 0,
+                To = 1,
+                Duration = TimeSpan.FromSeconds(0.2),
+                EnableDependentAnimation = true
+            };
+            Storyboard.SetTarget(fade, img);
+            Storyboard.SetTargetProperty(fade, "Opacity");
+            Storyboard openpane = new Storyboard();
+            openpane.Children.Add(fade);
+            openpane.Begin();
         }
     }
 }
