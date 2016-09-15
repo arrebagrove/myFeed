@@ -159,7 +159,7 @@
             </StackPanel>
         </Grid>
 
-        <Grid Name="Welcome" Visibility="Collapsed" Grid.Row="1" Canvas.ZIndex="9" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid Name="Welcome" Visibility="Collapsed" Padding="12" Grid.Row="1" Canvas.ZIndex="9" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,-50,0,0">
                 <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE734;" FontSize="50" TextAlignment="Center" Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}"/>
                 <TextBlock x:Uid="FavoritesWelcome"  TextAlignment="Center" FontSize="24" FontWeight="SemiLight" TextWrapping="Wrap" Margin="12,6"/>

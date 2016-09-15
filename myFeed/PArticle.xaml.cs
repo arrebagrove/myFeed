@@ -6,6 +6,7 @@ using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Navigation;
 
@@ -88,6 +89,18 @@ namespace myFeed
         private void HeadingCapsBlock_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             Scroller.ChangeView(null, 0, null);
+        }
+
+        private void ArticleLink_Holding(object sender, RoutedEventArgs e)
+        {
+            FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
+        }
+
+        private void CopyLink_Click(object sender, RoutedEventArgs e)
+        {
+            DataPackage dataPackage = new DataPackage();
+            dataPackage.SetText(Link);
+            Clipboard.SetContent(dataPackage);
         }
     }
 }

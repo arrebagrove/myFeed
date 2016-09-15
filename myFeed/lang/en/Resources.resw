@@ -423,4 +423,43 @@
   <data name="SearchCreateNewCatTitleFL" xml:space="preserve">
     <value>Create new category</value>
   </data>
+  <data name="DeleteCategory" xml:space="preserve">
+    <value>You are going to delete a category. Note, that all sites belonging to this category will also be deleted. Continue?</value>
+  </data>
+  <data name="SettingsNeedRestart" xml:space="preserve">
+    <value>myFeed restart required</value>
+  </data>
+  <data name="SettingsNeedRestartButton" xml:space="preserve">
+    <value>Restart</value>
+  </data>
+  <data name="SettingsNeedRestartMessage" xml:space="preserve">
+    <value>Please, restart the app if you need to see changes immediately. </value>
+  </data>
+  <data name="ChangeTextSizeTitle.Text" xml:space="preserve">
+    <value>Font size</value>
+  </data>
+  <data name="ChangeTheme.Text" xml:space="preserve">
+    <value>Choose a theme, in which application interfaces will be displayed.</value>
+  </data>
+  <data name="ChangeThemeDark.Content" xml:space="preserve">
+    <value>Dark theme</value>
+  </data>
+  <data name="ChangeThemeDefault.Content" xml:space="preserve">
+    <value>From system settings</value>
+  </data>
+  <data name="ChangeThemeLight.Content" xml:space="preserve">
+    <value>Light theme</value>
+  </data>
+  <data name="ChangeThemeTitle.Text" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="DisableImgDescTitle.Text" xml:space="preserve">
+    <value>Images</value>
+  </data>
+  <data name="NotifyCheckTimeTitle.Text" xml:space="preserve">
+    <value>Notifications</value>
+  </data>
+  <data name="ResetTitle.Text" xml:space="preserve">
+    <value>Reset</value>
+  </data>
 </root>

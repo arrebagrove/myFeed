@@ -67,23 +67,24 @@ namespace myFeed
 
             try
             {
-                StorageFile configfile = await storageFolder.GetFileAsync("config");
-                App.config = await SerializerExtensions.DeSerializeObject<App.ConfigFile>(configfile);
-            }
-            catch
-            {
+
+                string temp_ = await MigrateData("loadimg.txt");
+                if (temp_ != string.Empty) App.config.DownloadImages = bool.Parse(temp_);
+
+                temp_ = await MigrateData("checktime");
+                if (temp_ != string.Empty) App.config.CheckTime = uint.Parse(temp_);
+
+                temp_ = await MigrateData("settings.txt");
+                if (temp_ != string.Empty) App.config.FontSize = int.Parse(temp_);
+
                 StorageFile configfile = await storageFolder.CreateFileAsync("config");
                 SerializerExtensions.SerializeObject(App.config, configfile);
             }
+            catch
+            {
 
-            string temp = await MigrateData("loadimg.txt");
-            if (temp != string.Empty) App.config.DownloadImages = bool.Parse(temp);
+            }
 
-            temp = await MigrateData("checktime");
-            if (temp != string.Empty) App.config.CheckTime = uint.Parse(temp);
-
-            temp = await MigrateData("settings.txt");
-            if (temp != string.Empty) App.config.FontSize = int.Parse(temp);
 
             try
             {
@@ -99,7 +100,7 @@ namespace myFeed
 
             /// Here we do some stupid stuff in order to migrade 
             /// from old strange data storing format.
-            temp = await MigrateData("sources");
+            string temp = await MigrateData("sources");
             if (temp != string.Empty)
             {
                 try

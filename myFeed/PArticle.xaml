@@ -123,7 +123,14 @@
                 <Button FontFamily="Segoe MDL2 Assets" Content="&#xE72D;" Click="ShareButton_Click" Width="48" Height="48"
                         FontSize="20" x:Uid="Share" VerticalAlignment="Center" Background="Transparent" />
                 <Button FontFamily="Segoe MDL2 Assets" Content="&#xE71B;" Background="Transparent" Width="48" Height="48"
-                        FontSize="20" x:Uid="OpenInEdge" Click="ArticleLink_Tapped" />
+                        FontSize="20" x:Uid="OpenInEdge" Click="ArticleLink_Tapped" Holding="ArticleLink_Holding" 
+                        RightTapped="ArticleLink_Holding">
+                    <FlyoutBase.AttachedFlyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Name="CopyLink" Text="Скопировать ссылку" Click="CopyLink_Click" />
+                        </MenuFlyout>
+                    </FlyoutBase.AttachedFlyout>
+                </Button>
             </StackPanel>
         </Grid>
         <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Grid.Row="1">

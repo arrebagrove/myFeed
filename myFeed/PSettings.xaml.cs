@@ -11,6 +11,8 @@ namespace myFeed
 {
     public sealed partial class PSettings : Page
     {
+        private bool canset = false;
+
         public PSettings()
         {
             this.InitializeComponent();
@@ -36,10 +38,21 @@ namespace myFeed
                 case 180: NotifyCombo.SelectedIndex = 2; break;
                 case 0: NotifyCombo.SelectedIndex = 3; break;
             }
+
+            switch (App.config.RequestedTheme)
+            {
+                case 0: First.IsChecked = true; break;
+                case 1: Second.IsChecked = true; break;
+                case 2: Third.IsChecked = true; break;
+                default: break;
+            }
+
+            canset = true;
         }
 
-        private async void FontCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void FontCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (!canset) return;
             switch (FontCombo.SelectedIndex)
             {
                 case 0: App.config.FontSize = 15; break;
@@ -47,8 +60,7 @@ namespace myFeed
                 case 2: App.config.FontSize = 19; break;
             }
 
-            SerializerExtensions.SerializeObject(App.config, 
-                await ApplicationData.Current.LocalFolder.GetFileAsync("config"));
+            Save();
         }
 
         private async void ClearButton_Click(object sender, RoutedEventArgs e)
@@ -69,14 +81,16 @@ namespace myFeed
             }
         }
 
-        private async void toggleSwitch_Toggled(object sender, RoutedEventArgs e)
+        private void toggleSwitch_Toggled(object sender, RoutedEventArgs e)
         {
+            if (!canset) return;
             App.config.DownloadImages = toggleSwitch.IsOn;
-            SerializerExtensions.SerializeObject(App.config, await ApplicationData.Current.LocalFolder.GetFileAsync("config"));
+            Save();
         }
 
-        private async void NotifyCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void NotifyCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (!canset) return;
             switch (NotifyCombo.SelectedIndex)
             {
                 case 0: App.config.CheckTime = 30; break;
@@ -85,8 +99,52 @@ namespace myFeed
                 case 3: App.config.CheckTime = 0; break;
             }
 
-            SerializerExtensions.SerializeObject(App.config, await ApplicationData.Current.LocalFolder.GetFileAsync("config"));
+            Save();
             BackgroundTaskManager.RegisterNotifier(App.config.CheckTime);
+        }
+
+        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            if (!canset) return;
+            App.config.RequestedTheme = 0;
+            Save();
+            ThemeAlert();
+        }
+
+        private void RadioButton_Checked_1(object sender, RoutedEventArgs e)
+        {
+            if (!canset) return;
+            App.config.RequestedTheme = 1;
+            Save();
+            ThemeAlert();
+        }
+
+        private void RadioButton_Checked_2(object sender, RoutedEventArgs e)
+        {
+            if (!canset) return;
+            App.config.RequestedTheme = 2;
+            Save();
+            ThemeAlert();
+        }
+
+        private async void ThemeAlert()
+        {
+            ResourceLoader rl = new ResourceLoader();
+            MessageDialog dialog = new MessageDialog(rl.GetString("SettingsNeedRestartMessage"));
+            dialog.Title = rl.GetString("SettingsNeedRestart");
+            dialog.Commands.Add(new UICommand { Label = rl.GetString("SettingsNeedRestartButton"), Id = 0 });
+            dialog.Commands.Add(new UICommand { Label = rl.GetString("Cancel"), Id = 1 });
+            IUICommand res = await dialog.ShowAsync();
+            if ((int)res.Id == 0)
+            {
+                Application.Current.Exit();
+            }
+        }
+
+        private async void Save()
+        {
+            SerializerExtensions.SerializeObject(App.config, 
+                await ApplicationData.Current.LocalFolder.GetFileAsync("config"));
         }
     }
 }

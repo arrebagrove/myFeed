@@ -2,6 +2,8 @@
 using System.Runtime.Serialization;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.Storage;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -19,6 +21,7 @@ namespace myFeed {
             public int FontSize = 17;
             public uint CheckTime = 60;
             public bool DownloadImages = true;
+            public int RequestedTheme = 0; // 0 = N/A, 1 = Light, 2 = Dark
         }
 
         /// <summary>
@@ -35,11 +38,35 @@ namespace myFeed {
         /// </summary>
         public App()
         {
+            LoadConfig();
             Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(
                 Microsoft.ApplicationInsights.WindowsCollectors.Metadata |
                 Microsoft.ApplicationInsights.WindowsCollectors.Session);
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+        }
+        
+        /// <summary>
+        /// Загружает файл настроек приложения и устанавливает тему оформления в зависимости от содержимого.
+        /// </summary>
+        private async void LoadConfig()
+        {
+            try
+            {
+                StorageFile configfile = await ApplicationData.Current.LocalFolder.GetFileAsync("config");
+                App.config = await SerializerExtensions.DeSerializeObject<App.ConfigFile>(configfile);          
+                switch (config.RequestedTheme)
+                {
+                    case 1: this.RequestedTheme = ApplicationTheme.Light; break;
+                    case 2: this.RequestedTheme = ApplicationTheme.Dark;  break;
+                    default: break;
+                }
+            }
+            catch
+            {
+                StorageFile configfile = await ApplicationData.Current.LocalFolder.CreateFileAsync("config");
+                SerializerExtensions.SerializeObject(App.config, configfile);
+            }
         }
 
         /// <summary>

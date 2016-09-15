@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    
     <Border Name="MainBorder" BorderThickness="0 0 0 1" VerticalAlignment="Top" BorderBrush="{ThemeResource SystemChromeMediumColor}" Height="46">
         <Border.Transitions>
             <TransitionCollection>
@@ -38,7 +38,9 @@
                     </ItemsControl.ItemContainerTransitions>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Grid VerticalAlignment="Top" RightTapped="Grid_RightTapped" Holding="Grid_RightTapped" Margin="12,6" HorizontalAlignment="Stretch" Height="54" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                            <Grid VerticalAlignment="Top" RightTapped="Grid_RightTapped" Holding="Grid_RightTapped" 
+                                  Margin="12,6" HorizontalAlignment="Stretch" Height="54" 
+                                  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="32" />

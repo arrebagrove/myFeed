@@ -40,54 +40,64 @@
                            x:Uid="Settings" VerticalAlignment="Top" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontWeight="Bold" />
             </StackPanel>
         </Grid>
-        <Grid Grid.Row="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-            <ScrollViewer x:Name="PageStackPanel" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                <StackPanel>
-                    <Pivot>
-                        <PivotItem>
-                            <PivotItem.Header>
-                                <TextBlock x:Uid="Personalization" FontSize="15" FontWeight="Normal"/>
-                            </PivotItem.Header>
-                            <Grid MinHeight="500">
-                                <StackPanel>
-                                    <StackPanel Margin="0,6">
-                                        <TextBlock x:Uid="ChangeTextSize" TextWrapping="Wrap" />
-                                        <ComboBox Name="FontCombo" Width="170" Margin="0,6" SelectionChanged="FontCombo_SelectionChanged">
-                                            <ComboBoxItem x:Uid="FontSizeSmall" />
-                                            <ComboBoxItem x:Uid="FontSizeMiddle"/>
-                                            <ComboBoxItem x:Uid="FontSizeLarge" />
-                                        </ComboBox>
-                                    </StackPanel>
-                                    <StackPanel Margin="0,6">
-                                        <TextBlock x:Uid="DisableImgDesc" TextWrapping="Wrap"  Margin="0,5"/>
-                                        <ToggleSwitch x:Name="toggleSwitch" Toggled="toggleSwitch_Toggled" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                                    </StackPanel>
-                                    <StackPanel Margin="0,6">
-                                        <TextBlock x:Uid="NotifyCheckTime" TextWrapping="Wrap" Margin="0,5"/>
-                                        <ComboBox Name="NotifyCombo" Width="170" Margin="0,6" SelectionChanged="NotifyCombo_SelectionChanged">
-                                            <ComboBoxItem x:Uid="Notify30min" />
-                                            <ComboBoxItem x:Uid="Notify1hour" />
-                                            <ComboBoxItem x:Uid="Notify3hours" />
-                                            <ComboBoxItem x:Uid="NotifyDisabled" />
-                                        </ComboBox>
-                                    </StackPanel>
-                                </StackPanel>
-                            </Grid>
-                        </PivotItem>
-                        <PivotItem>
-                            <PivotItem.Header>
-                                <TextBlock x:Uid="Reset" FontSize="15" FontWeight="Normal"/>
-                            </PivotItem.Header>
-                            <Grid MinHeight="500">
+        <Grid Name="CategoriesHead" Canvas.ZIndex="0" Background="{ThemeResource SystemChromeLowColor}" Grid.Row="1" Height="48" VerticalAlignment="Top"/>
+        <Grid Grid.Row="1">
+            <Pivot>
+                <PivotItem>
+                    <PivotItem.Header>
+                        <TextBlock x:Uid="Personalization" FontSize="15" FontWeight="Normal"/>
+                    </PivotItem.Header>
+                    <Grid>
+                        <ScrollViewer x:Name="PageStackPanel" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                            <StackPanel>
                                 <StackPanel Margin="0,6">
-                                    <TextBlock x:Uid="ResetText" TextWrapping="Wrap"/>
-                                    <Button Name="ClearButton" x:Uid="ResetButton" Click="ClearButton_Click" Margin="0,10"/>
+                                    <TextBlock x:Uid="ChangeTextSizeTitle" Margin="0 6 0 0" Style="{StaticResource TitleTextBlockStyle}" />
+                                    <TextBlock x:Uid="ChangeTextSize" TextWrapping="Wrap" Margin="0,5"/>
+                                    <ComboBox Name="FontCombo" Width="170" Margin="0,6" SelectionChanged="FontCombo_SelectionChanged">
+                                        <ComboBoxItem x:Uid="FontSizeSmall" />
+                                        <ComboBoxItem x:Uid="FontSizeMiddle"/>
+                                        <ComboBoxItem x:Uid="FontSizeLarge" />
+                                    </ComboBox>
                                 </StackPanel>
-                            </Grid>
-                        </PivotItem>
-                    </Pivot>
-                </StackPanel>
-            </ScrollViewer>
+                                <StackPanel Margin="0,6">
+                                    <TextBlock x:Uid="DisableImgDescTitle" Margin="0 6 0 0" Style="{StaticResource TitleTextBlockStyle}" />
+                                    <TextBlock x:Uid="DisableImgDesc" TextWrapping="Wrap"  Margin="0,5"/>
+                                    <ToggleSwitch x:Name="toggleSwitch" Toggled="toggleSwitch_Toggled" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                </StackPanel>
+                                <StackPanel Margin="0,6">
+                                    <TextBlock x:Uid="NotifyCheckTimeTitle" Margin="0 6 0 0" Style="{StaticResource TitleTextBlockStyle}" />
+                                    <TextBlock x:Uid="NotifyCheckTime" TextWrapping="Wrap" Margin="0,5"/>
+                                    <ComboBox Name="NotifyCombo" Width="170" Margin="0,6" SelectionChanged="NotifyCombo_SelectionChanged">
+                                        <ComboBoxItem x:Uid="Notify30min" />
+                                        <ComboBoxItem x:Uid="Notify1hour" />
+                                        <ComboBoxItem x:Uid="Notify3hours" />
+                                        <ComboBoxItem x:Uid="NotifyDisabled" />
+                                    </ComboBox>
+                                </StackPanel>
+                                <StackPanel Margin="0,6">
+                                    <TextBlock x:Uid="ChangeThemeTitle" Margin="0 6 0 0" Style="{StaticResource TitleTextBlockStyle}" />
+                                    <TextBlock x:Uid="ChangeTheme" TextWrapping="Wrap" Margin="0,5" />
+                                    <RadioButton x:Uid="ChangeThemeDefault" Name="First" Checked="RadioButton_Checked" />
+                                    <RadioButton x:Uid="ChangeThemeLight" Name="Second" Checked="RadioButton_Checked_1" />
+                                    <RadioButton x:Uid="ChangeThemeDark" Name="Third" Checked="RadioButton_Checked_2" />
+                                </StackPanel>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
+                    </PivotItem>
+                    <PivotItem>
+                        <PivotItem.Header>
+                            <TextBlock x:Uid="Reset" FontSize="15" FontWeight="Normal"/>
+                        </PivotItem.Header>
+                        <Grid MinHeight="500">
+                        <StackPanel Margin="0,6">
+                            <TextBlock x:Uid="ResetTitle" Margin="0 6 0 0" Style="{StaticResource TitleTextBlockStyle}" />
+                            <TextBlock x:Uid="ResetText" Margin="0,5" TextWrapping="Wrap"/>
+                            <Button Name="ClearButton" x:Uid="ResetButton" Click="ClearButton_Click" Margin="0,10"/>
+                        </StackPanel>
+                    </Grid>
+                </PivotItem>
+            </Pivot>
         </Grid>
     </Grid>
 </Page>

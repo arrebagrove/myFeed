@@ -423,4 +423,43 @@
   <data name="SearchCreateNewCatTitleFL" xml:space="preserve">
     <value>Создайте новую категорию</value>
   </data>
+  <data name="DeleteCategory" xml:space="preserve">
+    <value>Это действите приведёт к удалению выбранной категории. Внимание! Все источники в этой категории будут также удалены.</value>
+  </data>
+  <data name="ChangeTextSizeTitle.Text" xml:space="preserve">
+    <value>Размер текста</value>
+  </data>
+  <data name="ChangeTheme.Text" xml:space="preserve">
+    <value>Выберите тему, которая будет использована при следующем запуске приложения.</value>
+  </data>
+  <data name="ChangeThemeDefault.Content" xml:space="preserve">
+    <value>Параметр системы</value>
+  </data>
+  <data name="ChangeThemeLight.Content" xml:space="preserve">
+    <value>Светлая тема</value>
+  </data>
+  <data name="ChangeThemeDark.Content" xml:space="preserve">
+    <value>Тёмная тема</value>
+  </data>
+  <data name="DisableImgDescTitle.Text" xml:space="preserve">
+    <value>Изображения</value>
+  </data>
+  <data name="NotifyCheckTimeTitle.Text" xml:space="preserve">
+    <value>Уведомления</value>
+  </data>
+  <data name="SettingsNeedRestart" xml:space="preserve">
+    <value>Необходим перезапуск myFeed</value>
+  </data>
+  <data name="SettingsNeedRestartButton" xml:space="preserve">
+    <value>Перезапустить</value>
+  </data>
+  <data name="SettingsNeedRestartMessage" xml:space="preserve">
+    <value>Чтобы изменения вступили в силу, необходим перезапуск приложения.</value>
+  </data>
+  <data name="ChangeThemeTitle.Text" xml:space="preserve">
+    <value>Оформление</value>
+  </data>
+  <data name="ResetTitle.Text" xml:space="preserve">
+    <value>Сброс</value>
+  </data>
 </root>

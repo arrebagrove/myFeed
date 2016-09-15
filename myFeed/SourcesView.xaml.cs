@@ -209,20 +209,29 @@ namespace myFeed
 
         private async void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
-            Categories cats = await SerializerExtensions.DeSerializeObject<Categories>(
-                await ApplicationData.Current.LocalFolder.GetFileAsync("sites"));
-
-            foreach (Category c in cats.categories)
+            ResourceLoader rl = new ResourceLoader();
+            var dialog = new MessageDialog(rl.GetString("DeleteCategory"));
+            dialog.Title = rl.GetString("DeleteElement");
+            dialog.Commands.Add(new UICommand { Label = rl.GetString("Delete"), Id = 0 });
+            dialog.Commands.Add(new UICommand { Label = rl.GetString("Cancel"), Id = 1 });
+            var res = await dialog.ShowAsync();
+            if ((int)res.Id == 0)
             {
-                if (c.title != cat.title) continue;
-                cats.categories.Remove(c);
-                break;
-            }
-
-            SerializerExtensions.SerializeObject(cats, 
+                Categories cats = await SerializerExtensions.DeSerializeObject<Categories>(
                 await ApplicationData.Current.LocalFolder.GetFileAsync("sites"));
 
-            ExpandItems(MainBorder.Height, 0);
+                foreach (Category c in cats.categories)
+                {
+                    if (c.title != cat.title) continue;
+                    cats.categories.Remove(c);
+                    break;
+                }
+
+                SerializerExtensions.SerializeObject(cats,
+                    await ApplicationData.Current.LocalFolder.GetFileAsync("sites"));
+
+                ExpandItems(MainBorder.Height, 0);
+            }
         }
 
         private async void RenameCategory_Click(object sender, RoutedEventArgs e)
