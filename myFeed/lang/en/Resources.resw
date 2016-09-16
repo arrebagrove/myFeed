@@ -462,4 +462,13 @@
   <data name="ResetTitle.Text" xml:space="preserve">
     <value>Reset</value>
   </data>
+  <data name="ArticleOpenEdgeError" xml:space="preserve">
+    <value>Something went wrong and the attempt to open this link failed!</value>
+  </data>
+  <data name="MenuAddToFavs.Text" xml:space="preserve">
+    <value>Add to favorites</value>
+  </data>
+  <data name="MenuCopyLink.Text" xml:space="preserve">
+    <value>Copy link</value>
+  </data>
 </root>

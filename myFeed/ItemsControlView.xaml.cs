@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.ApplicationModel.Resources;
 using Windows.Storage;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -152,7 +154,15 @@ namespace myFeed
         private async void BarWeb_Click(object sender, RoutedEventArgs e)
         {
             PFeedItem item = (PFeedItem)((MenuFlyoutItem)sender).DataContext;
-            await Windows.System.Launcher.LaunchUriAsync(new Uri(item.link));
+            ResourceLoader rl = new ResourceLoader();
+            try
+            {
+                await Windows.System.Launcher.LaunchUriAsync(new Uri(item.link));
+            }
+            catch
+            {
+                await (new MessageDialog(rl.GetString("ArticleOpenEdgeError"))).ShowAsync();
+            }
             MarkAsRead(item);
         }
 
@@ -170,14 +180,49 @@ namespace myFeed
             MarkAsRead(item);
         }
 
-        private void Button_RightTapped(object sender, RoutedEventArgs e)
+        private async void Button_RightTapped(object sender, RoutedEventArgs e)
         {
+            PFeedItem item = (PFeedItem)((Button)sender).DataContext;
+            MenuFlyout menu = FlyoutBase.GetAttachedFlyout((Button)sender) as MenuFlyout;
+            MenuFlyoutItem favbutton = menu.Items[4] as MenuFlyoutItem;
+
+            StorageFile cache = await ApplicationData.Current.LocalFolder.GetFileAsync("saved_cache");
+            string favcache = await FileIO.ReadTextAsync(cache);
+            if (favcache.Contains(item.link))
+            {
+                favbutton.Visibility = Visibility.Collapsed;
+            }
+
             FlyoutBase.ShowAttachedFlyout(sender as FrameworkElement);
         }
 
         private void NavigateToSourcePage_Click(object sender, RoutedEventArgs e)
         {
             bag.parentframe.Navigate(typeof(PFeedList));
+        }
+
+        private async void AddToFavs_Click(object sender, RoutedEventArgs e)
+        {
+            PFeedItem item = (PFeedItem)((MenuFlyoutItem)sender).DataContext;
+            StorageFile cache = await ApplicationData.Current.LocalFolder.GetFileAsync("saved_cache");
+            string favcache = await FileIO.ReadTextAsync(cache);
+            if (!favcache.Contains(item.link))
+            {
+                StorageFolder favoritesFolder = await ApplicationData.Current.LocalFolder.GetFolderAsync("favorites");
+                int filecount = (await favoritesFolder.GetFilesAsync()).Count;
+
+                StorageFolder storageFolder = await ApplicationData.Current.LocalFolder.GetFolderAsync("favorites");
+                SerializerExtensions.SerializeObject(item, await storageFolder.CreateFileAsync(filecount.ToString()));
+                await FileIO.AppendTextAsync(cache, item.link + ";");
+            }
+        }
+
+        private void CopyLink_Click(object sender, RoutedEventArgs e)
+        {
+            PFeedItem item = (PFeedItem)((MenuFlyoutItem)sender).DataContext;
+            DataPackage dataPackage = new DataPackage();
+            dataPackage.SetText(item.link);
+            Clipboard.SetContent(dataPackage);
         }
     }
 }

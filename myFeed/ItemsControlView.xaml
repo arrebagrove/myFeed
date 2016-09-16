@@ -111,7 +111,10 @@
                                 <FlyoutBase.AttachedFlyout>
                                     <MenuFlyout>
                                         <MenuFlyoutItem Name="ReadItem" x:Uid="MenuRead" Click="ReadItem_Click" />
+                                        <MenuFlyoutSeparator />
                                         <MenuFlyoutItem Name="OpenInEdge" x:Uid="MenuOpenInEdge" Click="BarWeb_Click"/>
+                                        <MenuFlyoutItem Name="CopyLink" x:Uid="MenuCopyLink" Click="CopyLink_Click" />
+                                        <MenuFlyoutItem Name="AddToFavs" x:Uid="MenuAddToFavs" Click="AddToFavs_Click" />
                                     </MenuFlyout>
                                 </FlyoutBase.AttachedFlyout>
                             </Button>

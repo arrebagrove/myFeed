@@ -462,4 +462,13 @@
   <data name="ResetTitle.Text" xml:space="preserve">
     <value>Сброс</value>
   </data>
+  <data name="ArticleOpenEdgeError" xml:space="preserve">
+    <value>Открыть статью в браузере не получилось, что-то пошло не так!</value>
+  </data>
+  <data name="MenuAddToFavs.Text" xml:space="preserve">
+    <value>Добавить в избранное</value>
+  </data>
+  <data name="MenuCopyLink.Text" xml:space="preserve">
+    <value>Скопировать ссылку</value>
+  </data>
 </root>

@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.ApplicationModel.Resources;
 using Windows.Storage;
 using Windows.System;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -52,7 +54,15 @@ namespace myFeed
 
         private async void ArticleLink_Tapped(object sender, RoutedEventArgs e)
         {
-            await Launcher.LaunchUriAsync(new Uri(Link));
+            ResourceLoader rl = new ResourceLoader();
+            try
+            {
+                await Launcher.LaunchUriAsync(new Uri(Link));
+            }
+            catch
+            {
+                await (new MessageDialog(rl.GetString("ArticleOpenEdgeError"))).ShowAsync();
+            }
         }
 
         private void ShareButton_Click(object sender, RoutedEventArgs e)

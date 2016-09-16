@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.Storage;
+using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -26,6 +27,8 @@ namespace myFeed
                 var statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
                 SolidColorBrush statuscolor = NavBackground.Background as SolidColorBrush;
                 statusBar.BackgroundColor = statuscolor.Color;
+                if (App.config.RequestedTheme == 1) { statusBar.ForegroundColor = Colors.Black; }
+                else if (App.config.RequestedTheme == 2) { statusBar.ForegroundColor = Colors.White; }
                 statusBar.BackgroundOpacity = 1;
             }
 
@@ -84,7 +87,6 @@ namespace myFeed
             {
 
             }
-
 
             try
             {
