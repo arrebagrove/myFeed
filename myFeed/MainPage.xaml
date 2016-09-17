@@ -48,7 +48,9 @@
             <RowDefinition Height="48" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Button Background="Transparent" Canvas.ZIndex="3" Name="MyButton" FontSize="20" FontFamily="Segoe MDL2 Assets" Content="&#xE700;" Width="48" Height="48" Click="MyButton_Click"  Foreground="{ThemeResource ApplicationForegroundThemeBrush}" VerticalAlignment="Top" />
+        <Button Background="Transparent" Canvas.ZIndex="3" Name="MyButton" FontSize="20" FontFamily="Segoe MDL2 Assets" 
+                Content="&#xE700;" Width="48" Height="48" Click="MyButton_Click"  
+                Foreground="{ThemeResource ApplicationForegroundThemeBrush}" VerticalAlignment="Top" />
         <StackPanel Grid.Row="0" Name="NavBackground" Background="{ThemeResource SystemChromeLowColor}" />
         <SplitView Grid.Row="0" Grid.RowSpan="2" x:Name="MySplitView" DisplayMode="Overlay" OpenPaneLength="220">
             <SplitView.Pane>
@@ -57,7 +59,9 @@
                          SelectionChanged="HamburgerListBox_SelectionChanged" ManipulationMode="TranslateX">
                     <ListBoxItem Name="UnusedItem" Height="48" Padding="0" IsEnabled="False">
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
-                            <TextBlock Name="Unutext" Visibility="Collapsed" x:Uid="DisplayName" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontWeight="Bold" Margin="60,0,0,0" VerticalAlignment="Center" />
+                            <TextBlock Name="Unutext" Visibility="Collapsed" x:Uid="DisplayName" 
+                                       Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontWeight="Bold" 
+                                       Margin="60,0,0,0" VerticalAlignment="Center" />
                         </StackPanel>
                     </ListBoxItem>
                     <ListBoxItem Name="FeedItem" Height="48">
@@ -95,9 +99,9 @@
             <SplitView.Content>
                 <Grid>
                     <Grid Canvas.ZIndex="2" Width="12" HorizontalAlignment="Left" Grid.Row="1" 
-                          ManipulationMode="TranslateX" Background="Transparent"
-                          ManipulationCompleted="SplitView_Open" />
-                    <ProgressRing Foreground="{ThemeResource SystemControlBackgroundAccentBrush}" Width="70" Height="70" IsActive="True" Name="MainLoading"/>
+                          ManipulationMode="TranslateX" Background="Transparent" ManipulationCompleted="SplitView_Open" />
+                    <ProgressRing Grid.Row="1" Foreground="{ThemeResource SystemControlBackgroundAccentBrush}" 
+                                  Width="70" Height="70" IsActive="False" Name="MainLoading"/>
                     <Frame Name="MainFrame" Canvas.ZIndex="1" Navigated="MainFrame_Navigated" />
                 </Grid>
             </SplitView.Content>

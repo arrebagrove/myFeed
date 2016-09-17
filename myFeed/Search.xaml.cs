@@ -33,6 +33,7 @@ namespace myFeed
                 WelcomeDisabling.Begin();
                 NetworkError.Visibility = Visibility.Collapsed;
                 LoadStatus.IsIndeterminate = true;
+                LoadStatus.Visibility = Visibility.Visible;
                 StatusBarEnabling.Begin();
 
                 await SearchForFeeds(@"https://ajax.googleapis.com/ajax/services/feed/find?v=1.0&q=" + SearchInput.Text);
@@ -173,6 +174,15 @@ namespace myFeed
 
                 if (!string.IsNullOrWhiteSpace(name))
                 {
+                    foreach (Category c in cats.categories)
+                    {
+                        if (c.title == name)
+                        {
+                            await (new MessageDialog((new ResourceLoader()).GetString("CategoryExists")).ShowAsync());
+                            return;
+                        }
+                    }
+
                     Category newcat = new Category()
                     {
                         title = name,

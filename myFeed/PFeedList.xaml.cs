@@ -14,11 +14,12 @@ namespace myFeed
         public PFeedList()
         {
             InitializeComponent();
+            LoadContent();
             App.ChosenIndex = 3;
             App.CanNavigate = true;
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        private async void LoadContent()
         {
             Categories cats = await SerializerExtensions.DeSerializeObject<Categories>(
                 await ApplicationData.Current.LocalFolder.GetFileAsync("sites"));

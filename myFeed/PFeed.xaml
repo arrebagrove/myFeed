@@ -56,33 +56,46 @@
         <Frame Name="ArticleFrame" Grid.Row="0" Grid.RowSpan="2" Canvas.ZIndex="5" />
         <Grid Name="Header" Canvas.ZIndex="4" Grid.Row="0" HorizontalAlignment="Stretch" Height="48">
             <TextBlock x:Name="HeadingCapsBlock" Canvas.ZIndex="4" HorizontalAlignment="Left" Margin="60,14,0,0" TextWrapping="Wrap" 
-                       x:Uid="Feed" VerticalAlignment="Top" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontWeight="Bold" />
+                       x:Uid="Feed" VerticalAlignment="Top" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" 
+                       FontWeight="Bold" />
             <StackPanel Name="Update" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Name="UpdBtn" FontSize="20" FontFamily="Segoe MDL2 Assets" Content="&#xE895;" Width="48" Height="48"
                         x:Uid="UpdateButton" Background="Transparent" Click="UpdBtn_Click" />
             </StackPanel>
         </Grid>
 
-        <Grid Name="Welcome" Visibility="Collapsed" Grid.Row="1" Canvas.ZIndex="9" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid Name="Welcome" Visibility="Collapsed" Grid.Row="1" Canvas.ZIndex="9" 
+              Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,-50,0,0">
-                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE8F3;" FontSize="50" TextAlignment="Center" Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}"/>
-                <TextBlock x:Uid="NewWelcomeDesc" TextAlignment="Center" FontSize="24" FontWeight="SemiLight" TextWrapping="Wrap" Margin="12,6"/>
-                <TextBlock x:Uid="NewWelcome" TextWrapping="Wrap" Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}" TextAlignment="Center" FontSize="17" />
-                <Button HorizontalAlignment="Center" Style="{ThemeResource TextBlockButtonStyle}" x:Uid="NewWelcomeBtn" Name="NavigateToSourcePage" Click="NavigateToSourcePage_Click"/>
+                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE8F3;" FontSize="50" TextAlignment="Center" 
+                           Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}"/>
+                <TextBlock x:Uid="NewWelcomeDesc" TextAlignment="Center" FontSize="24" FontWeight="SemiLight" TextWrapping="Wrap" 
+                           Margin="12,6"/>
+                <TextBlock x:Uid="NewWelcome" TextWrapping="Wrap" Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}" 
+                           TextAlignment="Center" FontSize="17" />
+                <Button HorizontalAlignment="Center" Style="{ThemeResource TextBlockButtonStyle}" x:Uid="NewWelcomeBtn" 
+                        Name="NavigateToSourcePage" Click="NavigateToSourcePage_Click"/>
             </StackPanel>
         </Grid>
 
-        <Grid Name="NetworkError" Visibility="Collapsed" Grid.Row="1" Canvas.ZIndex="9" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid Name="NetworkError" Visibility="Collapsed" Grid.Row="1" Canvas.ZIndex="9" 
+              Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,-50,0,0">
-                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xEB5E;" FontSize="50" TextAlignment="Center" Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}"/>
-                <TextBlock x:Uid="NoInternet"  TextAlignment="Center" FontSize="24" FontWeight="SemiLight" TextWrapping="Wrap" Margin="36,6"/>
-                <TextBlock x:Uid="NoInternetFixed" TextWrapping="Wrap" Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}" TextAlignment="Center" FontSize="17" />
-                <Button Style="{ThemeResource TextBlockButtonStyle}" x:Uid="NoInternetUpd" HorizontalAlignment="Center" Click="UpdBtn_Click"/>
+                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xEB5E;" FontSize="50" TextAlignment="Center" 
+                           Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}"/>
+                <TextBlock x:Uid="NoInternet"  TextAlignment="Center" FontSize="24" FontWeight="SemiLight" TextWrapping="Wrap" 
+                           Margin="36,6"/>
+                <TextBlock x:Uid="NoInternetFixed" TextWrapping="Wrap" 
+                           Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}" TextAlignment="Center" FontSize="17" />
+                <Button Style="{ThemeResource TextBlockButtonStyle}" x:Uid="NoInternetUpd" HorizontalAlignment="Center" 
+                        Click="UpdBtn_Click"/>
             </StackPanel>
         </Grid>
 
-        <Grid Name="CategoriesHead" Canvas.ZIndex="0" Background="{ThemeResource SystemChromeLowColor}" Grid.Row="1" Height="48" VerticalAlignment="Top"/>
-        <Grid Name="NotifyLoad" Grid.Row="1" HorizontalAlignment="Center" Canvas.ZIndex="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid Name="CategoriesHead" Canvas.ZIndex="0" Background="{ThemeResource SystemChromeLowColor}" Grid.Row="1" Height="48" 
+              VerticalAlignment="Top"/>
+        <Grid Name="NotifyLoad" Grid.Row="1" HorizontalAlignment="Center" Canvas.ZIndex="1" 
+              Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <ProgressRing Name="NotificationStatus" Visibility="Collapsed" Grid.Row="1" Width="70" Height="70" IsActive="False" 
                           VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Grid>

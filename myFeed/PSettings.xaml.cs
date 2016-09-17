@@ -11,7 +11,7 @@ namespace myFeed
 {
     public sealed partial class PSettings : Page
     {
-        private bool canset = false;
+        private bool canSet = false;
 
         public PSettings()
         {
@@ -47,12 +47,12 @@ namespace myFeed
                 default: break;
             }
 
-            canset = true;
+            canSet = true;
         }
 
         private void FontCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!canset) return;
+            if (!canSet) return;
             switch (FontCombo.SelectedIndex)
             {
                 case 0: App.config.FontSize = 15; break;
@@ -83,14 +83,14 @@ namespace myFeed
 
         private void toggleSwitch_Toggled(object sender, RoutedEventArgs e)
         {
-            if (!canset) return;
+            if (!canSet) return;
             App.config.DownloadImages = toggleSwitch.IsOn;
             Save();
         }
 
         private void NotifyCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!canset) return;
+            if (!canSet) return;
             switch (NotifyCombo.SelectedIndex)
             {
                 case 0: App.config.CheckTime = 30; break;
@@ -105,7 +105,7 @@ namespace myFeed
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
-            if (!canset) return;
+            if (!canSet) return;
             App.config.RequestedTheme = 0;
             Save();
             ThemeAlert();
@@ -113,7 +113,7 @@ namespace myFeed
 
         private void RadioButton_Checked_1(object sender, RoutedEventArgs e)
         {
-            if (!canset) return;
+            if (!canSet) return;
             App.config.RequestedTheme = 1;
             Save();
             ThemeAlert();
@@ -121,7 +121,7 @@ namespace myFeed
 
         private void RadioButton_Checked_2(object sender, RoutedEventArgs e)
         {
-            if (!canset) return;
+            if (!canSet) return;
             App.config.RequestedTheme = 2;
             Save();
             ThemeAlert();

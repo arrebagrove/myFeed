@@ -19,17 +19,31 @@ namespace myFeed
     {
         public MainPage()
         {
+            switch (App.config.RequestedTheme)
+            {
+                case 1: this.RequestedTheme = ElementTheme.Light; break;
+                case 2: this.RequestedTheme = ElementTheme.Dark; break;
+                default: break;
+            }
+
             this.InitializeComponent();
             Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetPreferredMinSize(new Windows.Foundation.Size(300, 300));
 
             if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
             {
-                var statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
-                SolidColorBrush statuscolor = NavBackground.Background as SolidColorBrush;
-                statusBar.BackgroundColor = statuscolor.Color;
-                if (App.config.RequestedTheme == 1) { statusBar.ForegroundColor = Colors.Black; }
-                else if (App.config.RequestedTheme == 2) { statusBar.ForegroundColor = Colors.White; }
-                statusBar.BackgroundOpacity = 1;
+                try
+                {
+                    var statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
+                    SolidColorBrush statuscolor = NavBackground.Background as SolidColorBrush;
+                    statusBar.BackgroundColor = statuscolor.Color;
+                    if (App.config.RequestedTheme == 1) { statusBar.ForegroundColor = Colors.Black; }
+                    else if (App.config.RequestedTheme == 2) { statusBar.ForegroundColor = Colors.White; }
+                    statusBar.BackgroundOpacity = 1;
+                }
+                catch
+                {
+
+                }
             }
 
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
@@ -43,9 +57,8 @@ namespace myFeed
             };
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            await CheckFiles();
             BackgroundTaskManager.RegisterNotifier(App.config.CheckTime);
             if (string.IsNullOrEmpty(e.Parameter.ToString()))
             {
@@ -61,122 +74,8 @@ namespace myFeed
 
         public void FindNotification(string id)
         {
+            MainLoading.IsActive = true;
             MainFrame.Navigate(typeof(PFeed), id);
-        }
-
-        private async Task CheckFiles()
-        {
-            StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
-
-            try
-            {
-
-                string temp_ = await MigrateData("loadimg.txt");
-                if (temp_ != string.Empty) App.config.DownloadImages = bool.Parse(temp_);
-
-                temp_ = await MigrateData("checktime");
-                if (temp_ != string.Empty) App.config.CheckTime = uint.Parse(temp_);
-
-                temp_ = await MigrateData("settings.txt");
-                if (temp_ != string.Empty) App.config.FontSize = int.Parse(temp_);
-
-                StorageFile configfile = await storageFolder.CreateFileAsync("config");
-                SerializerExtensions.SerializeObject(App.config, configfile);
-            }
-            catch
-            {
-
-            }
-
-            try
-            {
-                await storageFolder.GetFileAsync("sites");
-            }
-            catch
-            {
-                await storageFolder.CreateFileAsync("sites");
-                Categories cats = new Categories();
-                cats.categories = new List<Category>();
-                SerializerExtensions.SerializeObject(cats, await ApplicationData.Current.LocalFolder.GetFileAsync("sites"));
-            }
-
-            /// Here we do some stupid stuff in order to migrade 
-            /// from old strange data storing format.
-            string temp = await MigrateData("sources");
-            if (temp != string.Empty)
-            {
-                try
-                {
-                    Categories cats = new Categories();
-                    cats.categories = new List<Category>();
-                    List<string> sourceslist = temp.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList();
-                    if (sourceslist.Count > 0) sourceslist.Remove(sourceslist.Last());
-                    foreach (string str in sourceslist)
-                    {
-                        Category cat = new Category();
-                        List<string> slist = str.Split(';').ToList();
-                        if (slist.Count > 0) slist.RemoveAt(slist.Count - 1);
-                        if (slist.Count > 0) cat.title = slist.First();
-                        if (slist.Count > 0) slist.Remove(slist.First());
-                        cat.websites = new List<Website>();
-                        foreach (string s in slist)
-                        {
-                            Debug.WriteLine(s);
-                            Website wb = new Website();
-                            wb.url = s;
-                            cat.websites.Add(wb);
-                        }
-                        cats.categories.Add(cat);
-                    }
-                    SerializerExtensions.SerializeObject(cats, await ApplicationData.Current.LocalFolder.GetFileAsync("sites"));
-
-                }
-                catch { }
-            }
-
-            try
-            {
-                await storageFolder.GetFileAsync("datecutoff");
-            }
-            catch
-            {
-                await storageFolder.CreateFileAsync("datecutoff");
-            }
-
-            try
-            {
-                await storageFolder.GetFolderAsync("favorites");
-            }
-            catch
-            {
-                await storageFolder.CreateFolderAsync("favorites");
-            }
-
-            try
-            {
-                await storageFolder.GetFileAsync("saved_cache");
-            }
-            catch
-            {
-                await storageFolder.CreateFileAsync("saved_cache");
-            }
-
-            try
-            {
-                /// Here we delete info about old articles.
-                App.Read = await FileIO.ReadTextAsync(await storageFolder.GetFileAsync("read.txt"));
-                List<string> read_list = App.Read.Split(';').ToList();
-                read_list.RemoveAt(read_list.Count - 1);
-                if (read_list.Count > 90) read_list = read_list.Skip(Math.Max(0, read_list.Count() - 90)).ToList();
-                App.Read = string.Empty;
-                foreach (string item in read_list) App.Read = App.Read + item + ';';
-                await FileIO.WriteTextAsync(await storageFolder.GetFileAsync("read.txt"), App.Read);
-            }
-            catch
-            {
-                await storageFolder.CreateFileAsync("read.txt", CreationCollisionOption.ReplaceExisting);
-            }
-
             MainLoading.IsActive = false;
         }
 
@@ -188,21 +87,6 @@ namespace myFeed
             if (MainFrame.BackStackDepth > 0)
                 if (MainFrame.BackStack[MainFrame.BackStackDepth - 1].SourcePageType == typeof(PFavorites))
                     MainFrame.BackStack.RemoveAt(MainFrame.BackStackDepth - 1);
-        }
-
-        private async Task<string> MigrateData(string filename)
-        {
-            try
-            {
-                StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync(filename);
-                string setting = await FileIO.ReadTextAsync(file);
-                await file.DeleteAsync();
-                return setting;
-            }
-            catch
-            {
-                return string.Empty;
-            }
         }
 
         private void HamburgerListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

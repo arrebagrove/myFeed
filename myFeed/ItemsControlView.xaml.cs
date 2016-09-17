@@ -185,12 +185,14 @@ namespace myFeed
             PFeedItem item = (PFeedItem)((Button)sender).DataContext;
             MenuFlyout menu = FlyoutBase.GetAttachedFlyout((Button)sender) as MenuFlyout;
             MenuFlyoutItem favbutton = menu.Items[4] as MenuFlyoutItem;
+            MenuFlyoutSeparator favsep = menu.Items[3] as MenuFlyoutSeparator;
 
             StorageFile cache = await ApplicationData.Current.LocalFolder.GetFileAsync("saved_cache");
             string favcache = await FileIO.ReadTextAsync(cache);
             if (favcache.Contains(item.link))
             {
                 favbutton.Visibility = Visibility.Collapsed;
+                favsep.Visibility = Visibility.Collapsed;
             }
 
             FlyoutBase.ShowAttachedFlyout(sender as FrameworkElement);

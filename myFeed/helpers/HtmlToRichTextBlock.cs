@@ -1,6 +1,7 @@
 ﻿using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
@@ -222,12 +223,22 @@ namespace myFeed
                 {
                     MenuFlyout menu = new MenuFlyout();
                     Windows.ApplicationModel.Resources.ResourceLoader rl = new Windows.ApplicationModel.Resources.ResourceLoader();
+
                     MenuFlyoutItem menuitem = new MenuFlyoutItem() { Text = rl.GetString("OpenFullSize") };
                     menuitem.Click += async (s, o) =>
                     {
                         await Windows.System.Launcher.LaunchUriAsync(new Uri(sourceUri));
                     };
                     menu.Items.Add(menuitem);
+
+                    MenuFlyoutItem menuitem2 = new MenuFlyoutItem() { Text = rl.GetString("CopyLinkToImage") };
+                    menuitem2.Click += (s, o) =>
+                    {
+                        DataPackage dataPackage = new DataPackage();
+                        dataPackage.SetText(sourceUri);
+                        Clipboard.SetContent(dataPackage);
+                    };
+                    menu.Items.Add(menuitem2);
                     menu.ShowAt((Image)sender);
                 };
 

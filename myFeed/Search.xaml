@@ -191,7 +191,7 @@
         <Grid MaxWidth="550" Grid.Row="2">
             <ScrollViewer Padding="0">
                 <Grid>
-                    <ProgressBar Name="LoadStatus" IsIndeterminate="False" VerticalAlignment="Top" Canvas.ZIndex="2" Opacity="1"/>
+                    <ProgressBar Visibility="Collapsed"  Name="LoadStatus" IsIndeterminate="False" VerticalAlignment="Top" Canvas.ZIndex="2" Opacity="1"/>
                     <ItemsControl Name="Display" HorizontalAlignment="Stretch">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>

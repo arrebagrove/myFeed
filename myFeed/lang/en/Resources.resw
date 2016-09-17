@@ -471,4 +471,7 @@
   <data name="MenuCopyLink.Text" xml:space="preserve">
     <value>Copy link</value>
   </data>
+  <data name="CopyLinkToImage" xml:space="preserve">
+    <value>Copy link</value>
+  </data>
 </root>

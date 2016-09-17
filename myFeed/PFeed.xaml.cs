@@ -24,6 +24,7 @@ namespace myFeed
         {
             this.InitializeComponent();
             App.ChosenIndex = 1;
+            ArticleFrame.Navigate(typeof(BlankPage));
             SystemNavigationManager.GetForCurrentView().BackRequested += (s, a) =>
             {
                 if (ArticleFrame.CanGoBack)
@@ -80,7 +81,6 @@ namespace myFeed
                     }
 
                     if (cats.categories.Count == 0) Welcome.Visibility = Visibility.Visible;
-                    else ArticleFrame.Navigate(typeof(BlankPage));
                 }
                 else
                 {
@@ -90,7 +90,10 @@ namespace myFeed
                 await FileIO.WriteTextAsync(await ApplicationData.Current.LocalFolder.GetFileAsync("datecutoff"), 
                     DateTime.Now.ToString());
             }
-            catch { }
+            catch
+            {
+                Welcome.Visibility = Visibility.Visible;
+            }
         }
 
         private async Task SearchArticleFromNotification(string theid, string website)
