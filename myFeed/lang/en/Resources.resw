@@ -474,4 +474,19 @@
   <data name="CopyLinkToImage" xml:space="preserve">
     <value>Copy link</value>
   </data>
+  <data name="AboutApp.Text" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="SDFeedback.Content" xml:space="preserve">
+    <value>Rate the App</value>
+  </data>
+  <data name="SDMail.Content" xml:space="preserve">
+    <value>Report an issue</value>
+  </data>
+  <data name="SDescMail.Text" xml:space="preserve">
+    <value>If you have exerienced some issues while using the App, feel free to send bug reports!</value>
+  </data>
+  <data name="SDescRate.Text" xml:space="preserve">
+    <value>If you like myFeed, please, rate five stars in Windows Store!</value>
+  </data>
 </root>

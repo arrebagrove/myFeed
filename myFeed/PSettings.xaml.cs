@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Windows.ApplicationModel.Email;
 using Windows.ApplicationModel.Resources;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -145,6 +147,36 @@ namespace myFeed
         {
             SerializerExtensions.SerializeObject(App.config, 
                 await ApplicationData.Current.LocalFolder.GetFileAsync("config"));
+        }
+
+        private async void WebSiteBtn_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            try
+            {
+                await Launcher.LaunchUriAsync(new Uri("http://worldbeater.github.io"));
+            }
+            catch
+            {
+            }
+        }
+
+        private async void MailMeBtn_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            EmailMessage emailMessage = new EmailMessage();
+            emailMessage.To.Add(new EmailRecipient("worldbeater-dev@yandex.ru"));
+            emailMessage.Subject = "myFeed Feedback";
+            await EmailManager.ShowComposeNewEmailAsync(emailMessage);
+        }
+
+        private async void FeedbackBtn_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            try
+            {
+                await Launcher.LaunchUriAsync(new Uri("ms-windows-store://review/?ProductId=9nblggh4nw02"));
+            }
+            catch
+            {
+            }
         }
     }
 }
