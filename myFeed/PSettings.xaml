@@ -111,7 +111,7 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <Grid Grid.Column="0" Background="{ThemeResource SystemControlBackgroundAccentBrush}" MaxWidth="100" MaxHeight="100">
-                                        <Image  Source="ms-appx://myFeed/Assets/StoreLogo.scale-400.png" Height="100" Width="100"/>
+                                        <Image Source="/Assets/StoreLogo.scale-400.png" Height="100" Width="100"/>
                                     </Grid>
                                     <StackPanel Grid.Column="1" Margin="12 0 12 0">
                                         <TextBlock Margin="0 6 0 6" Style="{StaticResource TitleTextBlockStyle}" Text="myFeed" TextWrapping="Wrap" />

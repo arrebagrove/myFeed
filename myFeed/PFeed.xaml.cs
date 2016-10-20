@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -90,9 +91,13 @@ namespace myFeed
                 await FileIO.WriteTextAsync(await ApplicationData.Current.LocalFolder.GetFileAsync("datecutoff"), 
                     DateTime.Now.ToString());
             }
-            catch
+            catch (FileNotFoundException ex)
             {
                 Welcome.Visibility = Visibility.Visible;
+            }
+            catch (Exception ex)
+            {
+                NetworkError.Visibility = Visibility.Visible;
             }
         }
 
