@@ -11,6 +11,7 @@ using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using Windows.Web.Syndication;
 
@@ -164,9 +165,15 @@ namespace myFeed
             if (!CanUpdate) return;
             CanUpdate = false;
             NetworkError.Visibility = Visibility.Collapsed;
+            
+            Tools.AnimateOpacity(Categories, 1, 0, 200);
+            await Task.Delay(200);
+
             Categories.Items.Clear();
             OnNavigatedTo(null);
+            Tools.AnimateOpacity(Categories, 0, 1, 200);
             await Task.Delay(2000);
+
             CanUpdate = true;
         }
 
@@ -174,6 +181,7 @@ namespace myFeed
         {
             Frame.Navigate(typeof(PFeedList));
         }
+
     }
 }
 

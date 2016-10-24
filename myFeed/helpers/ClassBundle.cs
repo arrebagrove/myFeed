@@ -4,10 +4,43 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Xml;
 using System.Xml.Serialization;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace myFeed
 {
+    public static class Tools
+    {
+        public static void AnimateOpacity(DependencyObject target, int from, int to, double duration)
+        {
+            DoubleAnimation fade = new DoubleAnimation()
+            {
+                From = from,
+                To = to,
+                Duration = TimeSpan.FromMilliseconds(duration),
+                EnableDependentAnimation = true,
+            };
+            Storyboard.SetTarget(fade, target);
+            Storyboard.SetTargetProperty(fade, "Opacity");
+
+            DiscreteObjectKeyFrame dokf = new DiscreteObjectKeyFrame()
+            {
+                KeyTime = (from > to) ? TimeSpan.FromMilliseconds(duration) : TimeSpan.FromMilliseconds(0),
+                Value = (from > to) ? Visibility.Collapsed : Visibility.Visible
+            };
+            ObjectAnimationUsingKeyFrames oaukf = new ObjectAnimationUsingKeyFrames() { EnableDependentAnimation = true };
+            oaukf.KeyFrames.Add(dokf);
+            Storyboard.SetTarget(oaukf, target);
+            Storyboard.SetTargetProperty(oaukf, "Visibility");
+
+            Storyboard openpane = new Storyboard();
+            openpane.Children.Add(fade);
+            openpane.Children.Add(oaukf);
+            openpane.Begin();
+        }
+    }
+
     public class ListFeed
     {
         public string feedtitle { get; set; }

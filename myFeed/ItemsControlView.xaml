@@ -97,7 +97,7 @@
                 <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE897;" FontSize="50" TextAlignment="Center" Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}"/>
                 <TextBlock x:Uid="CatEmptyHeader" TextAlignment="Center" FontSize="24" FontWeight="SemiLight" TextWrapping="Wrap" Margin="12,6"/>
                 <TextBlock x:Uid="CatEmpty" TextWrapping="Wrap" Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}" TextAlignment="Center" FontSize="17" />
-                <Button x:Uid="NewWelcomeBtn" HorizontalAlignment="Center" Style="{ThemeResource TextBlockButtonStyle}" Name="NavigateToSourcePage" Click="NavigateToSourcePage_Click"/>
+                <Button x:Uid="NewWelcomeBtn" HorizontalAlignment="Center" Background="{ThemeResource SystemControlBackgroundAccentBrush}" Foreground="White" Margin="12" Name="NavigateToSourcePage" Click="NavigateToSourcePage_Click"/>
             </StackPanel>
         </Grid>
 

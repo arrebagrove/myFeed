@@ -36,6 +36,7 @@
 
         <Style x:Key="myControl" TargetType="Button">
             <Setter Property="Padding" Value="0,0"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">

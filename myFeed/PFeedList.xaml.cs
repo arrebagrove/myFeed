@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.Storage;
 using Windows.UI.Popups;
@@ -14,12 +15,19 @@ namespace myFeed
         public PFeedList()
         {
             InitializeComponent();
-            LoadContent();
+            LoaderHelper();
             App.ChosenIndex = 3;
             App.CanNavigate = true;
         }
 
-        private async void LoadContent()
+        private async void LoaderHelper()
+        {
+            await LoadContent();
+            Tools.AnimateOpacity(CategoryAdd, 0, 1, 200);
+            Tools.AnimateOpacity(FeedSearch, 0, 1, 200);
+        }
+
+        private async Task LoadContent()
         {
             Categories cats = await SerializerExtensions.DeSerializeObject<Categories>(
                 await ApplicationData.Current.LocalFolder.GetFileAsync("sites"));
@@ -31,6 +39,7 @@ namespace myFeed
                     Frame frame = new Frame();
                     frame.Navigate(typeof(SourcesView), cat);
                     SourcesList.Items.Add(frame);
+                    await Task.Delay(100);
                 }
             }
 
