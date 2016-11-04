@@ -16,7 +16,7 @@
                         <Grid Name="Grid" HorizontalAlignment="Stretch" Padding="12, 0, 12, 12">
                             <Grid.Transitions>
                                 <TransitionCollection>
-                                    <EntranceThemeTransition FromVerticalOffset="0" FromHorizontalOffset="10" />
+                                    <EntranceThemeTransition FromVerticalOffset="0" FromHorizontalOffset="20" />
                                 </TransitionCollection>
                             </Grid.Transitions>
                             <VisualStateManager.VisualStateGroups>

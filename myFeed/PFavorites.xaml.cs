@@ -46,6 +46,7 @@ namespace myFeed
 
         private async Task Go(ItemsControl list, object NavUri)
         {
+            await Task.Delay(300);
             StorageFolder favorites = await (ApplicationData.Current.LocalFolder.GetFolderAsync("favorites"));
             IReadOnlyList<StorageFile> files = await favorites.GetFilesAsync();
 
@@ -64,13 +65,16 @@ namespace myFeed
             }
             else
             {
-                foreach (PFeedItem item in itemlist) CompareAddTimeRead(item, list, false);
+                foreach (PFeedItem item in itemlist)
+                {
+                    CompareAddTimeRead(item, list, false);
+                }
             }
         }
 
         private void Header_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            Scroller.ChangeView(null, 0, null, false);
+            //Scroller.ChangeView(null, 0, null, false);
         }
 
         private void ListTapped(object sender, TappedRoutedEventArgs e)
@@ -143,7 +147,7 @@ namespace myFeed
             {
                 From = 0,
                 To = 1,
-                Duration = TimeSpan.FromSeconds(0.2),
+                Duration = TimeSpan.FromSeconds(0.4),
                 EnableDependentAnimation = true
             };
             Storyboard.SetTarget(fade, img);

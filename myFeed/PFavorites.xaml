@@ -37,13 +37,14 @@
         <Style x:Key="myControl" TargetType="Button">
             <Setter Property="Padding" Value="0,0"/>
             <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Grid Name="Grid" HorizontalAlignment="Stretch" Padding="12,6,12,12" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                             <Grid.Transitions>
                                 <TransitionCollection>
-                                    <EntranceThemeTransition FromVerticalOffset="0" FromHorizontalOffset="10" />
+                                    <EntranceThemeTransition FromVerticalOffset="0" FromHorizontalOffset="20" />
                                 </TransitionCollection>
                             </Grid.Transitions>
                             <VisualStateManager.VisualStateGroups>
@@ -76,7 +77,7 @@
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-                            <Grid Name="Super">
+                            <Grid Name="Super" HorizontalAlignment="Stretch">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
@@ -107,7 +108,7 @@
                                     </Grid>
                                     <TextBlock Canvas.ZIndex="1" FontSize="26" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" FontFamily="Segoe MDL2 Assets" Text="&#xE8A1;" VerticalAlignment="Center" Opacity="{Binding Path=iconopacity}" HorizontalAlignment="Center"/>
                                 </Grid>
-                                <Grid Grid.Column="1" Grid.Row="0">
+                                <Grid Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch">
                                     <TextBlock TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" Margin="0,0,40,0" Opacity="1" FontSize="12"
                                                Text="{Binding Path=feed}" Foreground="{ThemeResource SystemControlBackgroundAccentBrush}" />
                                     <TextBlock TextWrapping="NoWrap" TextTrimming="None" VerticalAlignment="Center" FontSize="12" Opacity="1"
@@ -116,6 +117,49 @@
                                 <TextBlock Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" Text="{Binding Path=title}" Opacity="1" Margin="0,-14,0,0"/>
                             </Grid>
                         </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="ListViewItem">
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+            <Setter Property="TabNavigation" Value="Local"/>
+            <Setter Property="IsHoldingEnabled" Value="True"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}"/>
+            <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <ListViewItemPresenter
+          ContentTransitions="{TemplateBinding ContentTransitions}"
+          SelectionCheckMarkVisualEnabled="True"
+          CheckBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
+          CheckBoxBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
+          DragBackground="{ThemeResource ListViewItemDragBackgroundThemeBrush}"
+          DragForeground="{ThemeResource ListViewItemDragForegroundThemeBrush}"
+          FocusBorderBrush="{ThemeResource SystemControlForegroundAltHighBrush}"
+          FocusSecondaryBorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}"
+          PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}"
+          PointerOverBackground="{ThemeResource SystemControlHighlightListLowBrush}"
+          PointerOverForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}"
+          SelectedBackground="{ThemeResource SystemControlHighlightListAccentLowBrush}"
+          SelectedForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}"
+          SelectedPointerOverBackground="{ThemeResource SystemControlHighlightListAccentMediumBrush}"
+          PressedBackground="{ThemeResource SystemControlHighlightListMediumBrush}"
+          SelectedPressedBackground="{ThemeResource SystemControlHighlightListAccentHighBrush}"
+          DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
+          DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
+          ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
+          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+          ContentMargin="{TemplateBinding Padding}"
+          CheckMode="Inline"/>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -170,38 +214,30 @@
 
         <Grid Grid.Row="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <ProgressBar Name="LoadStatus" VerticalAlignment="Top" IsIndeterminate="True" Canvas.ZIndex="2"/>
-            <Grid>
-                <ScrollViewer Name="Scroller" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" BorderThickness="0" Canvas.ZIndex="1" >
-                    <Grid Name="ScrollerInsides">
-                        <StackPanel Orientation="Vertical">
-                            <ItemsControl Name="Display" HorizontalAlignment="Center">
-                                <ItemsControl.ItemContainerTransitions>
-                                    <TransitionCollection>
-                                        <AddDeleteThemeTransition />
-                                    </TransitionCollection>
-                                </ItemsControl.ItemContainerTransitions>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Button HorizontalAlignment="Stretch" Style="{StaticResource myControl}" 
-                                                Tapped="ListTapped" RightTapped="SavedItem_Holding" Holding="SavedItem_Holding">
-                                            <FlyoutBase.AttachedFlyout>
-                                                <MenuFlyout>
-                                                    <MenuFlyoutItem Name="ReadItem" Click="ReadItem_Click" x:Uid="MenuRead" />
-                                                    <MenuFlyoutItem Name="OpenInEdge" x:Uid="MenuOpenInEdge" Click="OpenInEdge_Click"/>
-                                                    <MenuFlyoutItem Name="UnpinFromStart" x:Uid="UnpinFromStart" Click="UnpinFromStart_Click"/>
-                                                    <MenuFlyoutItem Name="PinToStart" x:Uid="PinToStart" Click="PinToStart_Click"/>
-                                                    <MenuFlyoutSeparator />
-                                                    <MenuFlyoutItem Name="DeleteItem" Click="DeleteItem_Click" x:Uid="MenuDelete" />
-                                                </MenuFlyout>
-                                            </FlyoutBase.AttachedFlyout>
-                                        </Button>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </StackPanel>
-                    </Grid>
-                </ScrollViewer>
-            </Grid>
+            <ListView Name="Display" HorizontalAlignment="Center" MaxWidth="700">
+                <ListView.ItemContainerTransitions>
+                    <TransitionCollection>
+                        <AddDeleteThemeTransition />
+                    </TransitionCollection>
+                </ListView.ItemContainerTransitions>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Button HorizontalAlignment="Stretch" Style="{StaticResource myControl}" 
+                            Tapped="ListTapped" RightTapped="SavedItem_Holding" Holding="SavedItem_Holding">
+                            <FlyoutBase.AttachedFlyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem Name="ReadItem" Click="ReadItem_Click" x:Uid="MenuRead" />
+                                    <MenuFlyoutItem Name="OpenInEdge" x:Uid="MenuOpenInEdge" Click="OpenInEdge_Click"/>
+                                    <MenuFlyoutItem Name="UnpinFromStart" x:Uid="UnpinFromStart" Click="UnpinFromStart_Click"/>
+                                    <MenuFlyoutItem Name="PinToStart" x:Uid="PinToStart" Click="PinToStart_Click"/>
+                                    <MenuFlyoutSeparator />
+                                    <MenuFlyoutItem Name="DeleteItem" Click="DeleteItem_Click" x:Uid="MenuDelete" />
+                                </MenuFlyout>
+                            </FlyoutBase.AttachedFlyout>
+                        </Button>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </Grid>
     </Grid>
 </Page>

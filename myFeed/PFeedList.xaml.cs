@@ -34,12 +34,13 @@ namespace myFeed
             
             if (cats != null)
             {
+                await Task.Delay(200);
                 foreach (Category cat in cats.categories)
                 {
+                    await Task.Delay(100);
                     Frame frame = new Frame();
                     frame.Navigate(typeof(SourcesView), cat);
                     SourcesList.Items.Add(frame);
-                    await Task.Delay(100);
                 }
             }
 

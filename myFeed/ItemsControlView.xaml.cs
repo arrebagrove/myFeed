@@ -31,8 +31,11 @@ namespace myFeed
             {
                 if (bag.list.Count == 0) Welcome.Visibility = Visibility.Visible;
                 await Go(bag.list);
-                foreach (PFeedItem item in Fullfeed.GetRange(0, (Fullfeed.Count >= itemscount) 
-                    ? itemscount : Fullfeed.Count)) CompareAddTimeRead(item);
+                foreach (PFeedItem item in Fullfeed.GetRange(0, (Fullfeed.Count >= itemscount)
+                    ? itemscount : Fullfeed.Count))
+                {
+                    CompareAddTimeRead(item);
+                }
                 Showmore.Visibility = (Fullfeed.Count > itemscount) ? Visibility.Visible : Visibility.Collapsed;
                 ProgRing.IsActive = false;
             };
@@ -70,6 +73,7 @@ namespace myFeed
 
         private async Task Go(List<Website> sites)
         {
+            await Task.Delay(300);
             List<PFeedItem> fullfeed = new List<PFeedItem>();
             foreach (Website website in sites)
             {
@@ -141,7 +145,7 @@ namespace myFeed
             {
                 From = 0,
                 To = 1,
-                Duration = TimeSpan.FromSeconds(0.3),
+                Duration = TimeSpan.FromSeconds(0.4),
                 EnableDependentAnimation = true
             };
             Storyboard.SetTarget(fade, img);

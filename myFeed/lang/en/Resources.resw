@@ -160,7 +160,7 @@
     <value>Should the app download images? Disabling this can probably let you reduce mobile data usage.</value>
   </data>
   <data name="DisplayName.Text" xml:space="preserve">
-    <value>MYFEED</value>
+    <value>myFeed</value>
   </data>
   <data name="EnterLink.PlaceholderText" xml:space="preserve">
     <value>Enter a link to RSS channel</value>

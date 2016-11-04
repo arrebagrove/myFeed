@@ -15,14 +15,17 @@
                         <AdaptiveTrigger MinWindowWidth="500" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="MySplitView.CompactPaneLength" Value="48" />
-                        <Setter Target="MySplitView.DisplayMode" Value="CompactOverlay" />
+                        <Setter Target="MainFrame.Margin" Value="48 0 0 0" />
+                        <Setter Target="SplitviewLayer.MinWidth" Value="48" />
+                        <Setter Target="HamburgerListBox.HorizontalAlignment" Value="Left" />
                         <Setter Target="MyButton.Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
                         <Setter Target="MyButton.Foreground" Value="White"/>
+                        <Setter Target="ButtonInside.Foreground" Value="White" />
                         <Setter Target="UnusedItem.Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
                         <Setter Target="Unutext.Foreground" Value="White" />
-                        <Setter Target="Unutext.Visibility" Value="Visible" />
                         <Setter Target="HamburgerListBox.Background" Value="{ThemeResource SystemChromeMediumColor}" />
+                        <Setter Target="ButtonInside.Margin" Value="0" />
+                        <Setter Target="ButtonInside.HorizontalAlignment" Value="Left" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="VeryWideState">
@@ -30,81 +33,98 @@
                         <AdaptiveTrigger MinWindowWidth="700" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="MySplitView.CompactPaneLength" Value="48" />
-                        <Setter Target="MySplitView.DisplayMode" Value="CompactOverlay" />
+                        <Setter Target="MainFrame.Margin" Value="48 0 0 0" />
+                        <Setter Target="ButtonInside.Foreground" Value="White" />
+                        <Setter Target="SplitviewLayer.MinWidth" Value="48" />
+                        <Setter Target="HamburgerListBox.HorizontalAlignment" Value="Left" />
                         <Setter Target="MyButton.Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
                         <Setter Target="MyButton.Foreground" Value="White"/>
                         <Setter Target="UnusedItem.Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
                         <Setter Target="Unutext.Foreground" Value="White" />
-                        <Setter Target="Unutext.Visibility" Value="Visible" />
                         <Setter Target="HamburgerListBox.Background" Value="{ThemeResource SystemChromeMediumColor}" />
                         <Setter Target="NavBackground.Background" Value="{ThemeResource SystemChromeMediumColor}" />
+                        <Setter Target="ButtonInside.Margin" Value="0" />
+                        <Setter Target="ButtonInside.HorizontalAlignment" Value="Left" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="48" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Button Background="Transparent" Canvas.ZIndex="3" Name="MyButton" FontSize="20" FontFamily="Segoe MDL2 Assets" 
-                Content="&#xE700;" Width="48" Height="48" Click="MyButton_Click"  
-                Foreground="{ThemeResource ApplicationForegroundThemeBrush}" VerticalAlignment="Top" />
-        <StackPanel Grid.Row="0" Name="NavBackground" Background="{ThemeResource SystemChromeLowColor}" />
-        <SplitView Grid.Row="0" Grid.RowSpan="2" x:Name="MySplitView" DisplayMode="Overlay" OpenPaneLength="220">
-            <SplitView.Pane>
-                <ListBox ManipulationCompleted="SplitView_Close" Canvas.ZIndex="3" ScrollViewer.VerticalScrollMode="Disabled" 
-                         Background="{ThemeResource SystemChromeLowColor}" SelectionMode="Single" Name="HamburgerListBox"
-                         SelectionChanged="HamburgerListBox_SelectionChanged" ManipulationMode="TranslateX">
+        <Grid Grid.Row="0" Grid.RowSpan="2" x:Name="MySplitView">
+            <Grid Name="SplitviewLayer" Background="{ThemeResource SystemChromeLowColor}" 
+                    HorizontalAlignment="Left" Canvas.ZIndex="1" Width="0"
+                    ManipulationDelta="SplitviewLayer_ManipulationDelta"
+                    ManipulationCompleted="SplitviewLayer_ManipulationCompleted">
+                <Button Foreground="{ThemeResource ApplicationForegroundThemeBrush}" Canvas.ZIndex="4" FontSize="20" 
+                        FontFamily="Segoe MDL2 Assets" Background="Transparent" Name="ButtonInside"
+                        Content="&#xE700;" Width="48" Height="48" Click="MyButton_Click" VerticalAlignment="Top" 
+                        Margin="0 0 172 0" HorizontalAlignment="Right" />
+
+                <ListBox Canvas.ZIndex="3" ScrollViewer.VerticalScrollMode="Disabled" Width="220" HorizontalAlignment="Right"
+                    Background="{ThemeResource SystemChromeLowColor}" SelectionMode="Single" Name="HamburgerListBox"
+                    SelectionChanged="HamburgerListBox_SelectionChanged" ManipulationMode="TranslateX,System">
                     <ListBoxItem Name="UnusedItem" Height="48" Padding="0" IsEnabled="False">
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
-                            <TextBlock Name="Unutext" Visibility="Collapsed" x:Uid="DisplayName" 
-                                       Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontWeight="Bold" 
-                                       Margin="60,0,0,0" VerticalAlignment="Center" />
+                            <TextBlock Name="Unutext" x:Uid="DisplayName" FontSize="16" Text="myFeed"
+                                Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontWeight="Bold" 
+                                Margin="60,0,0,0" VerticalAlignment="Center" />
                         </StackPanel>
                     </ListBoxItem>
                     <ListBoxItem Name="FeedItem" Height="48">
                         <StackPanel Orientation="Horizontal" Margin="2,0,0,0">
-                            <TextBlock Text="&#xE8F3;" FontSize="18" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"/>
-                            <TextBlock x:Uid="FeedL" Margin="28,0,0,0" VerticalAlignment="Center"/>
+                            <TextBlock Foreground="{ThemeResource ApplicationForegroundThemeBrush}" Text="&#xE8F3;" FontSize="18" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"/>
+                            <TextBlock Foreground="{ThemeResource ApplicationForegroundThemeBrush}" x:Uid="FeedL" Margin="28,0,0,0" VerticalAlignment="Center"/>
                         </StackPanel>
                     </ListBoxItem>
                     <ListBoxItem Name="FavItem" Height="48">
                         <StackPanel Orientation="Horizontal" Margin="2,0,0,0">
-                            <TextBlock Text="&#xE734;" FontSize="18" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"/>
-                            <TextBlock x:Uid="FavoritesL"  Margin="28,0,0,0" VerticalAlignment="Center"/>
+                            <TextBlock Foreground="{ThemeResource ApplicationForegroundThemeBrush}" Text="&#xE734;" FontSize="18" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"/>
+                            <TextBlock Foreground="{ThemeResource ApplicationForegroundThemeBrush}" x:Uid="FavoritesL"  Margin="28,0,0,0" VerticalAlignment="Center"/>
                         </StackPanel>
                     </ListBoxItem>
                     <ListBoxItem Name="FeedListItem" Height="48">
                         <StackPanel Orientation="Horizontal" Margin="2,0,0,0">
-                            <TextBlock Text="&#xE71D;" FontSize="18" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"/>
-                            <TextBlock x:Uid="FeedlistL" Margin="28,0,0,0" VerticalAlignment="Center"/>
+                            <TextBlock Foreground="{ThemeResource ApplicationForegroundThemeBrush}" Text="&#xE71D;" FontSize="18" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"/>
+                            <TextBlock Foreground="{ThemeResource ApplicationForegroundThemeBrush}" x:Uid="FeedlistL" Margin="28,0,0,0" VerticalAlignment="Center"/>
                         </StackPanel>
                     </ListBoxItem>
                     <ListBoxItem Name="SearchFeedItem" Height="48">
                         <StackPanel Orientation="Horizontal" Margin="2,0,0,0">
-                            <TextBlock Text="&#xE71E;" FontSize="18" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" />
-                            <TextBlock Text="Поиск лент" Margin="28,0,0,0" VerticalAlignment="Center" />
+                            <TextBlock Foreground="{ThemeResource ApplicationForegroundThemeBrush}" Text="&#xE71E;" FontSize="18" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" />
+                            <TextBlock Foreground="{ThemeResource ApplicationForegroundThemeBrush}" Text="Поиск лент" Margin="28,0,0,0" VerticalAlignment="Center" />
                         </StackPanel>
                     </ListBoxItem>
                     <ListBoxItem Name="SettingsItem" Height="48">
                         <StackPanel Orientation="Horizontal" Margin="2,0,0,0">
-                            <TextBlock Text="&#xE713;" FontSize="18" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"/>
-                            <TextBlock x:Uid="SettingsL" Margin="28,0,0,0" VerticalAlignment="Center"/>
+                            <TextBlock Foreground="{ThemeResource ApplicationForegroundThemeBrush}" Text="&#xE713;" FontSize="18" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"/>
+                            <TextBlock Foreground="{ThemeResource ApplicationForegroundThemeBrush}" x:Uid="SettingsL" Margin="28,0,0,0" VerticalAlignment="Center"/>
                         </StackPanel>
                     </ListBoxItem>
                 </ListBox>
-            </SplitView.Pane>
-            <SplitView.Content>
-                <Grid>
-                    <Grid Canvas.ZIndex="2" Width="12" HorizontalAlignment="Left" Grid.Row="1" 
-                          ManipulationMode="TranslateX" Background="Transparent" ManipulationCompleted="SplitView_Open" />
-                    <ProgressRing Grid.Row="1" Foreground="{ThemeResource SystemControlBackgroundAccentBrush}" 
-                                  Width="70" Height="70" IsActive="False" Name="MainLoading"/>
-                    <Frame Name="MainFrame" Canvas.ZIndex="1" Navigated="MainFrame_Navigated" />
-                </Grid>
-            </SplitView.Content>
-        </SplitView>
+            </Grid>
+
+            <Grid Canvas.ZIndex="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="48"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Name="LayoutController" Grid.Row="0" Grid.RowSpan="2" Canvas.ZIndex="2" 
+                        ManipulationMode="TranslateX" HorizontalAlignment="Left" Width="12"
+                        ManipulationStarted="LayoutController_ManipulationStarted"
+                        ManipulationCompleted="LayoutController_ManipulationCompleted" 
+                        ManipulationDelta="LayoutController_ManipulationDelta"
+                        Background="Transparent" Tapped="LayoutController_Tapped" />
+
+                <Button Background="Transparent" Canvas.ZIndex="3" Name="MyButton" FontSize="20" FontFamily="Segoe MDL2 Assets" 
+                Content="&#xE700;" Width="48" Height="48" Click="MyButton_Click"  
+                Foreground="{ThemeResource ApplicationForegroundThemeBrush}" VerticalAlignment="Top" />
+                <StackPanel Grid.Row="0" Name="NavBackground" Background="{ThemeResource SystemChromeLowColor}" />
+
+                <ProgressRing Grid.Row="1" Foreground="{ThemeResource SystemControlBackgroundAccentBrush}" 
+                    Width="70" Height="70" IsActive="False" Name="MainLoading"/>
+                <Frame Name="MainFrame" Canvas.ZIndex="1" Grid.RowSpan="2" Navigated="MainFrame_Navigated" />
+            </Grid>
+            
+        </Grid>
     </Grid>
 </Page>

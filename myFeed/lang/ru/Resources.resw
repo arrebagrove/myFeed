@@ -160,7 +160,7 @@
     <value>Загрузка изображений. Отключение этой опции может помочь сэкономить трафик, если используется лимитированное соединение с интернетом.</value>
   </data>
   <data name="DisplayName.Text" xml:space="preserve">
-    <value>MYFEED</value>
+    <value>myFeed</value>
   </data>
   <data name="EnterLink.PlaceholderText" xml:space="preserve">
     <value>Введите ссылку на RSS ленту</value>

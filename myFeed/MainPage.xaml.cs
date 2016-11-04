@@ -11,12 +11,15 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 namespace myFeed
 {
     public sealed partial class MainPage : Page
     {
+        private bool _manipulationsEnabled = true;
+
         public MainPage()
         {
             switch (App.config.RequestedTheme)
@@ -28,7 +31,6 @@ namespace myFeed
 
             this.InitializeComponent();
             Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetPreferredMinSize(new Windows.Foundation.Size(300, 300));
-
             if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
             {
                 try
@@ -39,6 +41,7 @@ namespace myFeed
                     if (App.config.RequestedTheme == 1) { statusBar.ForegroundColor = Colors.Black; }
                     else if (App.config.RequestedTheme == 2) { statusBar.ForegroundColor = Colors.White; }
                     statusBar.BackgroundOpacity = 1;
+                    
                 }
                 catch
                 {
@@ -89,39 +92,36 @@ namespace myFeed
                     MainFrame.BackStack.RemoveAt(MainFrame.BackStackDepth - 1);
         }
 
-        private void HamburgerListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void HamburgerListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (HamburgerListBox.SelectedIndex == App.ChosenIndex) return;
             switch (HamburgerListBox.SelectedIndex)
             {
                 case 0:
                     return;
                 case 1:
-                    MySplitView.IsPaneOpen = false;
                     MainFrame.Navigate(typeof(PFeed));
                     break;
                 case 2:
-                    MySplitView.IsPaneOpen = false;
                     MainFrame.Navigate(typeof(PFavorites));
                     break;
                 case 3:
-                    MySplitView.IsPaneOpen = false;
                     MainFrame.Navigate(typeof(PFeedList));
                     break;
                 case 4:
-                    MySplitView.IsPaneOpen = false;
                     MainFrame.Navigate(typeof(Search));
                     break;
                 case 5:
-                    MySplitView.IsPaneOpen = false;
                     MainFrame.Navigate(typeof(PSettings));
                     break;
             }
+
+            await Task.Delay(150);
+            ClosePane();
         }
         
         private void MyButton_Click(object sender, RoutedEventArgs e)
         {
-            MySplitView.IsPaneOpen = !MySplitView.IsPaneOpen;
+            if (SplitviewLayer.Width > 0) ClosePane(); else OpenPane();
         }
 
         private void MainFrame_Navigated(object sender, NavigationEventArgs e)
@@ -129,14 +129,109 @@ namespace myFeed
             HamburgerListBox.SelectedIndex = App.ChosenIndex;
         }
 
-        private void SplitView_Open(object sender, Windows.UI.Xaml.Input.ManipulationCompletedRoutedEventArgs e)
+        private void SplitviewLayer_ManipulationDelta(object sender, Windows.UI.Xaml.Input.ManipulationDeltaRoutedEventArgs e)
         {
-            MySplitView.IsPaneOpen = true;
+            double dx = e.Delta.Translation.X;
+            if (SplitviewLayer.Width + dx < 220 && SplitviewLayer.Width + dx > 0)
+            {
+                SplitviewLayer.Width += dx;
+            }
         }
 
-        private void SplitView_Close(object sender, Windows.UI.Xaml.Input.ManipulationCompletedRoutedEventArgs e)
+        private async void SplitviewLayer_ManipulationCompleted(object sender, Windows.UI.Xaml.Input.ManipulationCompletedRoutedEventArgs e)
         {
-            MySplitView.IsPaneOpen = false;
+            HamburgerListBox.IsEnabled = false;
+            double v = e.Velocities.Linear.X;
+            if (v < 0)
+            {
+                ClosePane();
+                await Task.Delay(150);
+            }
+            else if (v >= 0)
+            {
+                OpenPane();
+                await Task.Delay(150);
+            }
+            HamburgerListBox.IsEnabled = true;
         }
+
+        private async void LayoutController_ManipulationCompleted(object sender, Windows.UI.Xaml.Input.ManipulationCompletedRoutedEventArgs e)
+        {
+            if (!_manipulationsEnabled) return;
+            double v = e.Velocities.Linear.X;
+            if (v < 0)
+            {
+                ClosePane();
+                await Task.Delay(150);
+            }
+            else if (v >= 0)
+            {
+                OpenPane();
+                await Task.Delay(150);
+            }
+        }
+
+        private void LayoutController_ManipulationStarted(object sender, Windows.UI.Xaml.Input.ManipulationStartedRoutedEventArgs e)
+        {
+            if (!_manipulationsEnabled) return;
+            SplitviewLayer.Width = LayoutController.Width;
+        }
+
+        private void LayoutController_ManipulationDelta(object sender, Windows.UI.Xaml.Input.ManipulationDeltaRoutedEventArgs e)
+        {
+            if (!_manipulationsEnabled) return;
+            double dx = e.Delta.Translation.X;
+            if (SplitviewLayer.Width + dx <= 220 &&
+                SplitviewLayer.Width + dx >= 0 &&
+                LayoutController.Width + dx < 220)
+            {
+                LayoutController.Width += dx;
+                SplitviewLayer.Width += dx;
+            }
+        }
+
+        private void LayoutController_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            ClosePane();
+        }
+
+        private void OpenPane()
+        {
+            _manipulationsEnabled = false;
+            LayoutController.Width = double.NaN;
+            LayoutController.HorizontalAlignment = HorizontalAlignment.Stretch;
+            DoubleAnimation line = new DoubleAnimation()
+            {
+                From = SplitviewLayer.Width,
+                To = 220,
+                Duration = TimeSpan.FromMilliseconds(150),
+                EnableDependentAnimation = true
+            };
+            Storyboard.SetTarget(line, SplitviewLayer);
+            Storyboard.SetTargetProperty(line, "Width");
+            Storyboard openpane = new Storyboard();
+            openpane.Children.Add(line);
+            openpane.Begin();
+        }
+
+        private void ClosePane()
+        {
+            _manipulationsEnabled = true;
+            LayoutController.HorizontalAlignment = HorizontalAlignment.Left;
+            LayoutController.Width = 12;
+            DoubleAnimation line = new DoubleAnimation()
+            {
+                From = SplitviewLayer.Width,
+                To = 0,
+                Duration = TimeSpan.FromMilliseconds(150),
+                EnableDependentAnimation = true
+            };
+            Storyboard.SetTarget(line, SplitviewLayer);
+            Storyboard.SetTargetProperty(line, "Width");
+            Storyboard openpane = new Storyboard();
+            openpane.Children.Add(line);
+            openpane.Begin();
+        }
+
     }
 }
